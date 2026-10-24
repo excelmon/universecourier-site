@@ -84,6 +84,13 @@
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2.4s infinite; }
   .dot.stale { background: var(--critical); animation: none; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent); } 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .live-badge { display: none; font-size: 11px; font-weight: 600; letter-spacing: .08em; color: var(--ok); border: 1px solid var(--ok); border-radius: 999px; padding: 1px 7px; }
+  .live .live-badge { display: inline-block; }
+  .chip.arrive { animation: arrive .9s ease-out; }
+  @keyframes arrive { from { transform: translateY(-6px) scale(1.15); background: color-mix(in srgb, var(--series-1) 25%, transparent); } to { transform: none; } }
+  .big.flash { animation: flash 1.2s ease-out; }
+  @keyframes flash { from { color: var(--series-1); text-shadow: 0 0 24px color-mix(in srgb, var(--series-1) 50%, transparent); } to { color: inherit; text-shadow: none; } }
+  @media (prefers-reduced-motion: reduce) { .chip.arrive, .big.flash, .dot { animation: none; } }
   .theme-btn { border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); border-radius: 999px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer; }
 
   .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
@@ -150,8 +157,9 @@
       <h1>Universe Courier</h1>
       <p class="tagline">Messages from the universe, delivered at random.</p>
     </div>
-    <div class="status">
+    <div class="status" id="status">
       <span class="dot" id="dot"></span>
+      <span class="live-badge">LIVE</span>
       <span id="updated">Loading…</span>
       <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme">Theme</button>
     </div>
@@ -215,10 +223,16 @@
   // ?data=sample-data.json lets you preview with a local file
   const params = new URLSearchParams(location.search);
   const DATA_URL = params.get("data") || "https://data.universecourier.com/data.json";
+  // live ticker from the Pi through Cloudflare Tunnel (?live=off turns it off, ?live=<url> points elsewhere)
+  const LIVE_URL = params.get("live") === "off" ? null : (params.get("live") || "https://live.universecourier.com/latest.json");
+  const LIVE_EVERY_MS = 5000;
   const KEY_VALUES = new Set([3, 10, 43, 2]);
   const STALE_MINUTES = 15;
   const SVGNS = "http://www.w3.org/2000/svg";
   let data = null;
+  let live = null;            // last good ticker response
+  let liveOk = false;
+  let shownTopId = 0;         // newest number id currently on screen (for the arrival animation)
 
   // ---- theme toggle (remembered per browser when storage is available) ----
   const root = document.documentElement;
@@ -250,21 +264,42 @@
   }
   const fmtDate = iso => new Date(iso).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 
+  // Snapshot numbers plus any newer ones from the live ticker, newest first
+  function mergedNumbers() {
+    const byId = new Map();
+    (data.recent_numbers || []).forEach(n => byId.set(n.id, n));
+    if (liveOk && live) live.numbers.forEach(n => byId.set(n.id, n));
+    return [...byId.values()].sort((a, b) => b.id - a.id).slice(0, 120);
+  }
+
   // ---- render ----
   function render() {
     if (!data) return;
     const now = Date.now();
     const t = data.totals || {};
     const genAge = (now - new Date(data.generated_at).getTime()) / 60000;
-    $("updated").textContent = `Updated ${ago(data.generated_at, now)}` + (genAge > STALE_MINUTES ? " — the Pi may be offline" : "");
-    $("dot").classList.toggle("stale", genAge > STALE_MINUTES);
+    const numbers = mergedNumbers();
+    const snapTop = data.last_number ? data.last_number.id : 0;
+    const extra = numbers.filter(n => n.id > snapTop).length;   // live numbers newer than the snapshot
+    const top = numbers[0];
 
-    $("latestValue").textContent = data.last_number ? data.last_number.value : "–";
-    $("latestWhen").textContent = data.last_number ? `Received ${ago(data.last_number.received_at, now)} · range 1–${data.range_max}` : "Waiting for the first number";
+    $("status").classList.toggle("live", liveOk);
+    if (liveOk) {
+      $("updated").textContent = "Numbers arrive as they happen";
+      $("dot").classList.remove("stale");
+    } else {
+      $("updated").textContent = `Updated ${ago(data.generated_at, now)}` + (genAge > STALE_MINUTES ? " — the Pi may be offline" : "");
+      $("dot").classList.toggle("stale", genAge > STALE_MINUTES);
+    }
 
-    $("s24").textContent = fmtInt(t.numbers_24h);
+    const latest = $("latestValue");
+    latest.textContent = top ? top.value : "–";
+    if (top && shownTopId && top.id > shownTopId) { latest.classList.remove("flash"); void latest.offsetWidth; latest.classList.add("flash"); }
+    $("latestWhen").textContent = top ? `Received ${ago(top.at || top.received_at, now)} · range 1–${data.range_max}` : "Waiting for the first number";
+
+    $("s24").textContent = fmtInt((t.numbers_24h || 0) + extra);
     $("s24n").textContent = t.numbers_24h ? `about ${(t.numbers_24h / 1440).toFixed(1)} a minute` : "";
-    $("sTotal").textContent = fmtInt(t.numbers);
+    $("sTotal").textContent = fmtInt((t.numbers || 0) + extra);
     $("sTotaln").textContent = t.first_number_at ? `since ${new Date(t.first_number_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}` : "";
     $("sMsgs").textContent = fmtInt(t.deliveries_sent);
     const failed = (t.deliveries || 0) - (t.deliveries_sent || 0);
@@ -274,11 +309,13 @@
 
     // stream
     const stream = $("stream"); stream.replaceChildren();
-    (data.recent_numbers || []).slice(0, 96).forEach((n, i) => {
-      const c = el("span", "chip" + (KEY_VALUES.has(n.value) ? " key" : "") + (i === 0 ? " newest" : ""), String(n.value));
+    numbers.slice(0, 96).forEach((n, i) => {
+      const isNew = shownTopId && n.id > shownTopId;
+      const c = el("span", "chip" + (KEY_VALUES.has(n.value) ? " key" : "") + (i === 0 ? " newest" : "") + (isNew ? " arrive" : ""), String(n.value));
       c.title = fmtDate(n.at);
       stream.appendChild(c);
     });
+    if (top) shownTopId = Math.max(shownTopId, top.id);
 
     // messages
     const list = $("messages"); list.replaceChildren();
@@ -421,8 +458,31 @@
     }
   }
 
-  load();
+  // Live ticker: poll every few seconds while the tab is visible. If it fails, the page quietly
+  // falls back to the 5-minute snapshot and keeps trying.
+  async function pollLive() {
+    if (!LIVE_URL || document.visibilityState === "hidden") return;
+    try {
+      const r = await fetch(LIVE_URL, { cache: "no-cache" });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const j = await r.json();
+      if (!Array.isArray(j.numbers)) throw new Error("bad data");
+      live = j; liveOk = true;
+      // a message was sent since the snapshot: fetch the snapshot again so it shows up in the list
+      const lastKnown = data && data.deliveries && data.deliveries[0] ? data.deliveries[0].id : 0;
+      if (data && j.last_delivery && j.last_delivery.id > lastKnown) await load();
+      else render();
+    } catch (e) {
+      if (liveOk) { liveOk = false; render(); }
+    }
+  }
+
+  load().then(pollLive);
   setInterval(load, 60000);
+  if (LIVE_URL) {
+    setInterval(pollLive, LIVE_EVERY_MS);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") pollLive(); });
+  }
   setInterval(render, 30000);   // keep the "x min ago" labels fresh between loads
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (data) { renderHourly(); renderDist(); } }, 150); });
 })();
