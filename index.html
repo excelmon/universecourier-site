@@ -1,6 +1,431 @@
-   <!doctype html>
-   <html lang="en">
-   <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>Universe Courier</title></head>
-   <body><h1>Universe Courier</h1><p>Messages from the universe, delivered at random. Coming soon.</p></body>
-   </html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Universe Courier</title>
+<meta name="description" content="Messages from the universe, delivered at random by a hardware random number generator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --bg:            #f6f5f1;
+    --surface-1:     #fcfcfb;
+    --border:        #e2e0d8;
+    --text-primary:  #0b0b0b;
+    --text-secondary:#52514e;
+    --text-muted:    #7a7975;
+    --grid:          #ebe9e2;
+    --series-1:      #2a78d6;   /* numbers */
+    --accent:        #eb6834;   /* key-pair numbers */
+    --accent-soft:   #fbe3d8;
+    --critical:      #c62f2e;
+    --ok:            #1f8a4c;
+    --star:          rgba(11,11,11,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --bg:            #0e0f14;
+      --surface-1:     #17181f;
+      --border:        #2a2b34;
+      --text-primary:  #f0efec;
+      --text-secondary:#c3c2b7;
+      --text-muted:    #8f8e87;
+      --grid:          #24252d;
+      --series-1:      #3987e5;
+      --accent:        #e8743f;
+      --accent-soft:   #3a2318;
+      --critical:      #e66767;
+      --ok:            #3fb871;
+      --star:          rgba(240,239,236,.10);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:            #0e0f14;
+    --surface-1:     #17181f;
+    --border:        #2a2b34;
+    --text-primary:  #f0efec;
+    --text-secondary:#c3c2b7;
+    --text-muted:    #8f8e87;
+    --grid:          #24252d;
+    --series-1:      #3987e5;
+    --accent:        #e8743f;
+    --accent-soft:   #3a2318;
+    --critical:      #e66767;
+    --ok:            #3fb871;
+    --star:          rgba(240,239,236,.10);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background:
+      radial-gradient(1px 1px at 12% 18%, var(--star) 99%, transparent),
+      radial-gradient(1px 1px at 72% 9%,  var(--star) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 88% 34%, var(--star) 99%, transparent),
+      radial-gradient(1px 1px at 33% 41%, var(--star) 99%, transparent),
+      radial-gradient(1px 1px at 56% 27%, var(--star) 99%, transparent),
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font: 15px/1.5 Inter, system-ui, sans-serif;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px 64px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 40px 0 28px; }
+  h1 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(30px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; }
+  .tagline { margin: 6px 0 0; color: var(--text-secondary); }
+  .status { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2.4s infinite; }
+  .dot.stale { background: var(--critical); animation: none; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent); } 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); border-radius: 999px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  h2 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 20px; margin: 0 0 4px; }
+  .sub { color: var(--text-muted); font-size: 13px; margin: 0 0 16px; }
+  section { margin-top: 20px; }
+
+  .hero { display: grid; grid-template-columns: minmax(200px, 1fr) 2fr; gap: 20px; }
+  @media (max-width: 720px) { .hero { grid-template-columns: 1fr; } }
+  .latest { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+  .latest .label { color: var(--text-secondary); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+  .latest .big { font-size: clamp(64px, 14vw, 104px); font-weight: 600; line-height: 1; margin: 8px 0; }
+  .latest .when { color: var(--text-muted); font-size: 13px; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat .v { font-size: 26px; font-weight: 600; line-height: 1.2; }
+  .stat .k { color: var(--text-secondary); font-size: 13px; }
+  .stat .n { color: var(--text-muted); font-size: 12px; }
+
+  .stream { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { min-width: 40px; padding: 5px 0; text-align: center; border-radius: 8px; border: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
+  .chip.key { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); font-weight: 600; }
+  .chip.newest { outline: 2px solid var(--series-1); outline-offset: 1px; color: var(--text-primary); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-muted); font-size: 12px; margin-top: 12px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+
+  .messages { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .msg { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
+  .msg .text { font-family: Fraunces, Georgia, serif; font-size: 19px; line-height: 1.3; }
+  .msg .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--text-muted); font-size: 12px; }
+  .tag { border: 1px solid var(--border); border-radius: 999px; padding: 0 8px; color: var(--text-secondary); }
+  .tag.failed { border-color: var(--critical); color: var(--critical); }
+  .empty { color: var(--text-muted); font-style: italic; }
+
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 860px) { .charts { grid-template-columns: 1fr; } }
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: 220px; overflow: visible; }
+  .chart .axis text { fill: var(--text-muted); font-size: 11px; font-family: Inter, sans-serif; }
+  .chart .gridline { stroke: var(--grid); stroke-width: 1; }
+  .chart .bar { fill: var(--series-1); pointer-events: none; }
+  .chart .bar.dim { opacity: .35; }
+  .chart .hit { fill: transparent; cursor: crosshair; }
+  .chart .hit:hover + .bar, .chart .hit:focus + .bar { fill: var(--accent); }
+  .chart .ref { stroke: var(--text-secondary); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .tip { position: absolute; pointer-events: none; background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--text-secondary); box-shadow: 0 4px 16px rgba(0,0,0,.12); white-space: nowrap; display: none; z-index: 2; }
+  .tip strong { color: var(--text-primary); font-size: 14px; display: block; }
+  details { margin-top: 12px; color: var(--text-secondary); font-size: 13px; }
+  summary { cursor: pointer; color: var(--text-muted); }
+  .tbl-wrap { max-height: 260px; overflow: auto; margin-top: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; }
+  th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--grid); }
+  th { color: var(--text-muted); font-weight: 500; position: sticky; top: 0; background: var(--surface-1); }
+
+  footer { margin-top: 40px; color: var(--text-muted); font-size: 13px; max-width: 70ch; }
+  footer p { margin: 0 0 8px; }
+  .error { border-color: var(--critical); color: var(--critical); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Universe Courier</h1>
+      <p class="tagline">Messages from the universe, delivered at random.</p>
+    </div>
+    <div class="status">
+      <span class="dot" id="dot"></span>
+      <span id="updated">Loading…</span>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme">Theme</button>
+    </div>
+  </header>
+
+  <div id="error" class="card error" hidden></div>
+
+  <section class="hero">
+    <div class="card latest">
+      <span class="label">Latest number</span>
+      <span class="big mono" id="latestValue">–</span>
+      <span class="when" id="latestWhen"></span>
+    </div>
+    <div class="card stats">
+      <div class="stat"><div class="v mono" id="s24">–</div><div class="k">Numbers in the last 24 hours</div><div class="n" id="s24n"></div></div>
+      <div class="stat"><div class="v mono" id="sTotal">–</div><div class="k">Numbers since the start</div><div class="n" id="sTotaln"></div></div>
+      <div class="stat"><div class="v mono" id="sMsgs">–</div><div class="k">Messages delivered</div><div class="n" id="sMsgsn"></div></div>
+      <div class="stat"><div class="v mono" id="sSince">–</div><div class="k">Since the last message</div><div class="n" id="sSincen"></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>The stream</h2>
+    <p class="sub">The most recent numbers, newest first. A 3 followed by a 10, or a 43 followed by a 2, sends a message.</p>
+    <div class="stream mono" id="stream"></div>
+    <div class="legend">
+      <span><i style="border:2px solid var(--series-1)"></i>Newest</span>
+      <span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>Key-pair number (3, 10, 43, 2)</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Messages</h2>
+    <p class="sub">Every message the universe has sent so far, newest first.</p>
+    <ul class="messages" id="messages"></ul>
+  </section>
+
+  <section class="charts">
+    <div class="card">
+      <h2>Numbers per hour</h2>
+      <p class="sub">Last 48 hours, Central Time. Each number is one Geiger counter event.</p>
+      <div class="chart" id="hourlyChart"></div>
+      <details><summary>Show as table</summary><div class="tbl-wrap" id="hourlyTable"></div></details>
+    </div>
+    <div class="card">
+      <h2>How evenly values come up</h2>
+      <p class="sub">Count of each value since the start. The dashed line is what a perfectly even spread would give.</p>
+      <div class="chart" id="distChart"></div>
+      <details><summary>Show as table</summary><div class="tbl-wrap" id="distTable"></div></details>
+    </div>
+  </section>
+
+  <footer>
+    <p>The numbers come from a hardware random number generator driven by radioactive decay, read by a Raspberry Pi. When two numbers land in one of the key pairs, three more numbers pick a message and it's sent as a push notification.</p>
+    <p>This page refreshes itself every minute; the Pi publishes new data every 5 minutes.</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+  // ?data=sample-data.json lets you preview with a local file
+  const params = new URLSearchParams(location.search);
+  const DATA_URL = params.get("data") || "https://data.universecourier.com/data.json";
+  const KEY_VALUES = new Set([3, 10, 43, 2]);
+  const STALE_MINUTES = 15;
+  const SVGNS = "http://www.w3.org/2000/svg";
+  let data = null;
+
+  // ---- theme toggle (remembered per browser when storage is available) ----
+  const root = document.documentElement;
+  try { const t = localStorage.getItem("uc-theme"); if (t) root.dataset.theme = t; } catch (e) {}
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("uc-theme", root.dataset.theme); } catch (e) {}
+  });
+
+  // ---- helpers ----
+  const $ = id => document.getElementById(id);
+  const fmtInt = n => (n ?? 0).toLocaleString();
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  function ago(iso, now = Date.now()) {
+    if (!iso) return "–";
+    const s = Math.max(0, (now - new Date(iso).getTime()) / 1000);
+    if (s < 60) return "just now";
+    const m = s / 60; if (m < 60) return `${Math.round(m)} min ago`;
+    const h = m / 60; if (h < 36) return `${Math.round(h)} h ago`;
+    return `${(h / 24).toFixed(1)} days ago`;
+  }
+  function span(iso, now = Date.now()) {
+    if (!iso) return "–";
+    const h = (now - new Date(iso).getTime()) / 3600000;
+    if (h < 1) return `${Math.round(h * 60)} min`;
+    if (h < 48) return `${h.toFixed(1)} h`;
+    return `${(h / 24).toFixed(1)} d`;
+  }
+  const fmtDate = iso => new Date(iso).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+
+  // ---- render ----
+  function render() {
+    if (!data) return;
+    const now = Date.now();
+    const t = data.totals || {};
+    const genAge = (now - new Date(data.generated_at).getTime()) / 60000;
+    $("updated").textContent = `Updated ${ago(data.generated_at, now)}` + (genAge > STALE_MINUTES ? " — the Pi may be offline" : "");
+    $("dot").classList.toggle("stale", genAge > STALE_MINUTES);
+
+    $("latestValue").textContent = data.last_number ? data.last_number.value : "–";
+    $("latestWhen").textContent = data.last_number ? `Received ${ago(data.last_number.received_at, now)} · range 1–${data.range_max}` : "Waiting for the first number";
+
+    $("s24").textContent = fmtInt(t.numbers_24h);
+    $("s24n").textContent = t.numbers_24h ? `about ${(t.numbers_24h / 1440).toFixed(1)} a minute` : "";
+    $("sTotal").textContent = fmtInt(t.numbers);
+    $("sTotaln").textContent = t.first_number_at ? `since ${new Date(t.first_number_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}` : "";
+    $("sMsgs").textContent = fmtInt(t.deliveries_sent);
+    const failed = (t.deliveries || 0) - (t.deliveries_sent || 0);
+    $("sMsgsn").textContent = failed > 0 ? `${failed} didn't get through` : "";
+    $("sSince").textContent = span(t.last_delivery_at, now);
+    $("sSincen").textContent = t.last_delivery_at ? fmtDate(t.last_delivery_at) : "none yet";
+
+    // stream
+    const stream = $("stream"); stream.replaceChildren();
+    (data.recent_numbers || []).slice(0, 96).forEach((n, i) => {
+      const c = el("span", "chip" + (KEY_VALUES.has(n.value) ? " key" : "") + (i === 0 ? " newest" : ""), String(n.value));
+      c.title = fmtDate(n.at);
+      stream.appendChild(c);
+    });
+
+    // messages
+    const list = $("messages"); list.replaceChildren();
+    const ds = data.deliveries || [];
+    if (!ds.length) list.appendChild(el("li", "empty", "No messages yet. The universe is thinking."));
+    ds.forEach(d => {
+      const li = el("li", "msg");
+      li.appendChild(el("div", "text", d.text));
+      const meta = el("div", "meta");
+      meta.appendChild(el("span", null, fmtDate(d.sent_at)));
+      if (d.category) meta.appendChild(el("span", "tag", d.category));
+      if (d.timing && d.timing.length) meta.appendChild(el("span", "mono", `pair ${d.timing.join(" → ")}`));
+      if (d.selection && d.selection.length) meta.appendChild(el("span", "mono", `picked by ${d.selection.join(", ")}`));
+      if (d.status !== "sent") meta.appendChild(el("span", "tag failed", d.status === "failed" ? "didn't get through" : d.status));
+      li.appendChild(meta);
+      list.appendChild(li);
+    });
+
+    renderHourly();
+    renderDist();
+  }
+
+  // Fill in missing hours between the first hour shown and the current hour (keys are local "YYYY-MM-DDTHH")
+  function hourlySeries() {
+    const map = new Map((data.hourly || []).map(([h, n]) => [h, n]));
+    const keys = [...map.keys()];
+    const lastKey = data.last_number ? data.last_number.received_at.slice(0, 13) : keys[keys.length - 1];
+    if (!lastKey) return [];
+    const toMs = k => Date.UTC(+k.slice(0, 4), +k.slice(5, 7) - 1, +k.slice(8, 10), +k.slice(11, 13));
+    const toKey = ms => new Date(ms).toISOString().slice(0, 13);
+    const end = toMs(lastKey), start = end - 47 * 3600000;
+    const out = [];
+    for (let ms = start; ms <= end; ms += 3600000) { const k = toKey(ms); out.push([k, map.get(k) || 0]); }
+    return out;
+  }
+
+  function hourLabel(k) {
+    const h = +k.slice(11, 13);
+    const ampm = h === 0 ? "12a" : h < 12 ? `${h}a` : h === 12 ? "12p" : `${h - 12}p`;
+    return ampm;
+  }
+
+  // Generic thin-bar chart with hover tooltips and keyboard focus
+  function barChart(host, rows, { xLabel, tipLabel, tickEvery, refValue, dimFirst }) {
+    host.replaceChildren();
+    if (!rows.length) { host.appendChild(el("p", "empty", "No data yet.")); return; }
+    const W = Math.max(280, host.clientWidth || 480), H = 220, m = { t: 10, r: 8, b: 26, l: 36 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const max = Math.max(1, refValue || 0, ...rows.map(r => r[1]));
+    const niceMax = (() => { const p = Math.pow(10, Math.floor(Math.log10(max))); const f = max / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; })();
+    const y = v => m.t + ih - (v / niceMax) * ih;
+    const step = iw / rows.length, bw = Math.max(1, step - 2);
+    const svg = document.createElementNS(SVGNS, "svg");
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", xLabel);
+    const g = document.createElementNS(SVGNS, "g"); g.setAttribute("class", "axis"); svg.appendChild(g);
+    for (let i = 0; i <= 4; i++) {
+      const v = niceMax * i / 4, yy = y(v);
+      const ln = document.createElementNS(SVGNS, "line");
+      ln.setAttribute("x1", m.l); ln.setAttribute("x2", W - m.r); ln.setAttribute("y1", yy); ln.setAttribute("y2", yy); ln.setAttribute("class", "gridline");
+      g.appendChild(ln);
+      const tx = document.createElementNS(SVGNS, "text");
+      tx.setAttribute("x", m.l - 6); tx.setAttribute("y", yy + 4); tx.setAttribute("text-anchor", "end"); tx.textContent = Math.round(v).toLocaleString();
+      g.appendChild(tx);
+    }
+    const tip = el("div", "tip"); host.appendChild(tip);
+    rows.forEach(([label, v], i) => {
+      const x = m.l + i * step + 1;
+      const hit = document.createElementNS(SVGNS, "rect");
+      hit.setAttribute("x", m.l + i * step); hit.setAttribute("y", m.t); hit.setAttribute("width", step); hit.setAttribute("height", ih);
+      hit.setAttribute("class", "hit"); hit.setAttribute("tabindex", "0");
+      hit.setAttribute("aria-label", `${tipLabel(label)}: ${v}`);
+      const bh = Math.max(v > 0 ? 2 : 0, m.t + ih - y(v));
+      const bar = document.createElementNS(SVGNS, "path");
+      const r = Math.min(4, bw / 2, bh);
+      const top = m.t + ih - bh, bot = m.t + ih;
+      bar.setAttribute("d", bh <= 0 ? "" : `M${x},${bot} V${top + r} Q${x},${top} ${x + r},${top} H${x + bw - r} Q${x + bw},${top} ${x + bw},${top + r} V${bot} Z`);
+      bar.setAttribute("class", "bar" + (dimFirst && i < rows.length - 1 && dimFirst(label) ? " dim" : ""));
+      svg.appendChild(hit); svg.appendChild(bar);
+      const show = () => {
+        tip.replaceChildren(el("strong", "mono", v.toLocaleString()), document.createTextNode(tipLabel(label)));
+        tip.style.display = "block";
+        const px = ((x + bw / 2) / W) * host.clientWidth;
+        tip.style.left = Math.min(host.clientWidth - tip.offsetWidth, Math.max(0, px - tip.offsetWidth / 2)) + "px";
+        tip.style.top = Math.max(0, (top / H) * 220 - tip.offsetHeight - 8) + "px";
+      };
+      const hide = () => { tip.style.display = "none"; };
+      hit.addEventListener("pointerenter", show); hit.addEventListener("pointerleave", hide);
+      hit.addEventListener("focus", show); hit.addEventListener("blur", hide);
+      if (i % tickEvery === 0) {
+        const tx = document.createElementNS(SVGNS, "text");
+        tx.setAttribute("x", x + bw / 2); tx.setAttribute("y", H - 8); tx.setAttribute("text-anchor", "middle"); tx.textContent = xLabel === "hour" ? hourLabel(label) : label;
+        g.appendChild(tx);
+      }
+    });
+    if (refValue) {
+      const ln = document.createElementNS(SVGNS, "line");
+      ln.setAttribute("x1", m.l); ln.setAttribute("x2", W - m.r); ln.setAttribute("y1", y(refValue)); ln.setAttribute("y2", y(refValue)); ln.setAttribute("class", "ref");
+      svg.appendChild(ln);
+    }
+    host.insertBefore(svg, tip);
+  }
+
+  function table(host, head, rows) {
+    const t = el("table"), tr = el("tr");
+    head.forEach(h => tr.appendChild(el("th", null, h)));
+    const thead = el("thead"); thead.appendChild(tr); t.appendChild(thead);
+    const tb = el("tbody");
+    rows.forEach(r => { const row = el("tr"); r.forEach(c => row.appendChild(el("td", "mono", String(c)))); tb.appendChild(row); });
+    t.appendChild(tb); host.replaceChildren(t);
+  }
+
+  function renderHourly() {
+    const rows = hourlySeries();
+    const lbl = k => { const d = new Date(Date.UTC(+k.slice(0,4), +k.slice(5,7)-1, +k.slice(8,10))); return `${d.toLocaleDateString(undefined, { weekday: "short", timeZone: "UTC" })} ${hourLabel(k)}m`; };
+    // the current hour is still filling up, so it's drawn at full strength only when it's the last bar
+    barChart($("hourlyChart"), rows, { xLabel: "hour", tipLabel: k => `numbers · ${lbl(k)}`, tickEvery: 6 });
+    table($("hourlyTable"), ["Hour (Central)", "Numbers"], rows.slice().reverse().map(([k, n]) => [lbl(k), n]));
+  }
+
+  function renderDist() {
+    const counts = data.distribution || [];
+    const total = counts.reduce((a, b) => a + b, 0);
+    const rows = counts.map((n, i) => [String(i + 1), n]);
+    barChart($("distChart"), total ? rows : [], { xLabel: "value", tipLabel: v => `times value ${v} came up`, tickEvery: 16, refValue: total / (counts.length || 1) });
+    table($("distTable"), ["Value", "Count"], rows);
+  }
+
+  async function load() {
+    try {
+      const r = await fetch(DATA_URL, { cache: "no-cache" });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      data = await r.json();
+      $("error").hidden = true;
+      render();
+    } catch (e) {
+      $("error").hidden = false;
+      $("error").textContent = `Couldn't load the latest data (${e.message}). Trying again in a minute.`;
+    }
+  }
+
+  load();
+  setInterval(load, 60000);
+  setInterval(render, 30000);   // keep the "x min ago" labels fresh between loads
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (data) { renderHourly(); renderDist(); } }, 150); });
+})();
+</script>
+</body>
+</html>
