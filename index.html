@@ -145,7 +145,7 @@
   th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--grid); }
   th { color: var(--text-muted); font-weight: 500; position: sticky; top: 0; background: var(--surface-1); }
 
-  footer { margin-top: 40px; color: var(--text-muted); font-size: 13px; max-width: 70ch; }
+  footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px; max-width: 70ch; }
   footer p { margin: 0 0 8px; }
   .error { border-color: var(--critical); color: var(--critical); }
 </style>
@@ -213,8 +213,8 @@
   </section>
 
   <footer>
-    <p>The numbers come from a hardware random number generator driven by radioactive decay, read by a Raspberry Pi. When two numbers land in one of the key pairs, three more numbers pick a message and it's sent as a push notification.</p>
-    <p>This page refreshes itself every minute; the Pi publishes new data every 5 minutes.</p>
+    <p>Universe Courier turns radioactive decay into a live stream of random numbers. When a key pair appears, the three preceding numbers select a message delivered by push notification.</p>
+    <p>Live numbers update within seconds; historical data is refreshed periodically.</p>
   </footer>
 </div>
 
@@ -233,6 +233,7 @@
   let live = null;            // last good ticker response
   let liveOk = false;
   let shownTopId = 0;         // newest number id currently on screen (for the arrival animation)
+  let renderedDeliveries = null;
 
   // ---- theme toggle (remembered per browser when storage is available) ----
   const root = document.documentElement;
@@ -318,8 +319,11 @@
     if (top) shownTopId = Math.max(shownTopId, top.id);
 
     // messages
-    const list = $("messages"); list.replaceChildren();
+    const list = $("messages");
     const ds = data.deliveries || [];
+    if (ds !== renderedDeliveries) {
+    renderedDeliveries = ds;
+    list.replaceChildren();
     if (!ds.length) list.appendChild(el("li", "empty", "No messages yet. The universe is thinking."));
     ds.forEach(d => {
       const li = el("li", "msg");
@@ -333,9 +337,10 @@
       li.appendChild(meta);
       list.appendChild(li);
     });
+    }
 
-    renderHourly();
-    renderDist();
+    // Charts and tables depend on the snapshot, not the live ticker.
+    // Keep their DOM stable during live updates to avoid mobile scroll jumps.
   }
 
   // Fill in missing hours between the first hour shown and the current hour (keys are local "YYYY-MM-DDTHH")
@@ -452,6 +457,8 @@
       data = await r.json();
       $("error").hidden = true;
       render();
+      renderHourly();
+      renderDist();
     } catch (e) {
       $("error").hidden = false;
       $("error").textContent = `Couldn't load the latest data (${e.message}). Trying again in a minute.`;
