@@ -121,6 +121,13 @@
   .msg { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
   .msg .text { font-family: Fraunces, Georgia, serif; font-size: 19px; line-height: 1.3; }
   .msg .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--text-muted); font-size: 12px; }
+  /* Compact five-number record below each delivered message. */
+  .msg-sequence { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+  .msg-sequence .seq-label { color: var(--text-muted); font: 10px/1.3 "JetBrains Mono", monospace; letter-spacing: .04em; margin-right: 3px; }
+  .msg-sequence .seq-num { min-width: 29px; text-align: center; padding: 3px 5px; border: 1px solid var(--border); border-radius: 5px; color: var(--text-secondary); background: var(--bg); font: 11px/1.4 "JetBrains Mono", monospace; }
+  .msg-sequence .seq-num.trigger { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); font-weight: 600; }
+  .msg-sequence .seq-arrow { color: var(--text-muted); font-size: 12px; margin: 0 2px; }
+  .msg-sequence .seq-note { color: var(--text-muted); font-size: 10px; margin-left: 5px; }
   .tag { border: 1px solid var(--border); border-radius: 999px; padding: 0 8px; color: var(--text-secondary); }
   .tag.failed { border-color: var(--critical); color: var(--critical); }
   .empty { color: var(--text-muted); font-style: italic; }
@@ -331,10 +338,23 @@
       const meta = el("div", "meta");
       meta.appendChild(el("span", null, fmtDate(d.sent_at)));
       if (d.category) meta.appendChild(el("span", "tag", d.category));
-      if (d.timing && d.timing.length) meta.appendChild(el("span", "mono", `pair ${d.timing.join(" → ")}`));
-      if (d.selection && d.selection.length) meta.appendChild(el("span", "mono", `picked by ${d.selection.join(", ")}`));
+      const hasSequence = Array.isArray(d.selection) && d.selection.length === 3 && Array.isArray(d.timing) && d.timing.length === 2;
+      if (!hasSequence) {
+        if (d.timing && d.timing.length) meta.appendChild(el("span", "mono", `pair ${d.timing.join(" → ")}`));
+        if (d.selection && d.selection.length) meta.appendChild(el("span", "mono", `picked by ${d.selection.join(", ")}`));
+      }
       if (d.status !== "sent") meta.appendChild(el("span", "tag failed", d.status === "failed" ? "didn't get through" : d.status));
       li.appendChild(meta);
+      if (hasSequence) {
+        const seq = el("div", "msg-sequence");
+        seq.setAttribute("aria-label", `Message selected by ${d.selection.join(", ")}; triggered by ${d.timing.join(" then ")}`);
+        seq.appendChild(el("span", "seq-label", "SEED"));
+        d.selection.forEach(v => seq.appendChild(el("span", "seq-num", String(v))));
+        seq.appendChild(el("span", "seq-arrow", "→"));
+        seq.appendChild(el("span", "seq-label", "KEY"));
+        d.timing.forEach(v => seq.appendChild(el("span", "seq-num trigger", String(v))));
+        li.appendChild(seq);
+      }
       list.appendChild(li);
     });
     }
