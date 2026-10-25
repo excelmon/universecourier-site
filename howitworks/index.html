@@ -212,11 +212,20 @@
         <li><strong>Select.</strong> The three numbers immediately <em>before</em> the key pair seed the message retrieval algorithm, choosing from tarot cards, I Ching hexagrams, and short guidance.</li>
         <li><strong>Deliver.</strong> The selected message is sent to a phone through an ntfy push notification.</li>
       </ol>
-      <p class="example-note">Example sequence (illustrative):</p>
+      <p class="example-note">Example sequence from the stream (newest to oldest numbers):</p>
+
       <div class="example-seq mono" aria-label="Seed 87, 53, 41 followed by trigger key 43, 2">
-        <span>87</span><span>53</span><span>41</span><span class="key">43</span><span class="key">2</span>
+        <span class="key">2</span>
+        <span class="key">43</span>
+        <span>41</span>
+        <span>53</span>
+        <span>87</span>
       </div>
-      <p class="example-note">First three values: message selection · Last two values: trigger</p>
+
+      <!-- <div class="example-seq mono" aria-label="Seed 87, 53, 41 followed by trigger key 43, 2">
+        <span>87</span><span>53</span><span>41</span><span class="key">43</span><span class="key">2</span>
+      </div> -->
+      <p class="example-note">Numbers shown newest first, matching the live stream. The orange pair triggers delivery; the three preceding values select the message.</p>
     </section>
     <section class="card">
       <h2>What you're seeing on the dashboard</h2>
