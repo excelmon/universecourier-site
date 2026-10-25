@@ -113,6 +113,8 @@
   .stream { display: flex; flex-wrap: wrap; gap: 6px; }
   .chip { min-width: 40px; padding: 5px 0; text-align: center; border-radius: 8px; border: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
   .chip.key { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); font-weight: 600; }
+  /* A completed trigger pair is gold; isolated key values remain orange. */
+  .chip.confirmed { background: color-mix(in srgb, #e8b84d 23%, var(--surface-1)); border-color: #d8a52f; color: var(--text-primary); font-weight: 600; box-shadow: 0 0 0 1px rgba(232,184,77,.28), 0 0 12px rgba(232,184,77,.42); }
   .chip.newest { outline: 2px solid var(--series-1); outline-offset: 1px; color: var(--text-primary); }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-muted); font-size: 12px; margin-top: 12px; }
   .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
@@ -220,6 +222,7 @@
     <div class="legend">
       <span><i style="border:2px solid var(--series-1)"></i>Newest</span>
       <span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>Key-pair number (3, 10, 43, 2)</span>
+      <span><i style="background:rgba(232,184,77,.24);border:1px solid #d8a52f;box-shadow:0 0 7px rgba(232,184,77,.55)"></i>Confirmed key pair</span>
     </div>
   </section>
 
@@ -342,10 +345,24 @@
 
     // stream
     const stream = $("stream"); stream.replaceChildren();
-    numbers.slice(0, 96).forEach((n, i) => {
+    const visibleNumbers = numbers.slice(0, 96);
+    const confirmedIds = new Set();
+    // Newest-first display reverses chronological trigger order: 10,3 or 2,43.
+    // Require consecutive IDs so missing records cannot create a false match.
+    for (let i = 0; i < visibleNumbers.length - 1; i++) {
+      const newer = visibleNumbers[i], older = visibleNumbers[i + 1];
+      const matches = (newer.value === 10 && older.value === 3) ||
+                      (newer.value === 2 && older.value === 43);
+      if (matches && Number(newer.id) === Number(older.id) + 1) {
+        confirmedIds.add(newer.id);
+        confirmedIds.add(older.id);
+      }
+    }
+    visibleNumbers.forEach((n, i) => {
       const isNew = shownTopId && n.id > shownTopId;
-      const c = el("span", "chip" + (KEY_VALUES.has(n.value) ? " key" : "") + (i === 0 ? " newest" : "") + (isNew ? " arrive" : ""), String(n.value));
-      c.title = fmtDate(n.at);
+      const confirmed = confirmedIds.has(n.id);
+      const c = el("span", "chip" + (KEY_VALUES.has(n.value) ? " key" : "") + (confirmed ? " confirmed" : "") + (i === 0 ? " newest" : "") + (isNew ? " arrive" : ""), String(n.value));
+      c.title = (confirmed ? "Confirmed key pair · " : "") + fmtDate(n.at || n.received_at);
       stream.appendChild(c);
     });
     if (top) shownTopId = Math.max(shownTopId, top.id);
