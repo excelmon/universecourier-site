@@ -155,6 +155,20 @@
   footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px; max-width: 70ch; }
   footer p { margin: 0 0 8px; }
   .error { border-color: var(--critical); color: var(--critical); }
+
+  /* Shared page navigation */
+  .site-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .site-nav .nav-caption { color: var(--text-muted); font: 11px "JetBrains Mono", monospace; letter-spacing: .09em; text-transform: uppercase; }
+  .nav-menu { position: relative; margin: 0; color: var(--text-primary); }
+  .nav-menu summary { list-style: none; display: flex; align-items: center; gap: 12px; min-width: 155px; justify-content: space-between; cursor: pointer; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary); border-radius: 8px; padding: 7px 12px; font-size: 13px; }
+  .nav-menu summary::-webkit-details-marker { display: none; }
+  .nav-menu summary::after { content: "⌄"; color: var(--text-muted); font-size: 17px; line-height: 1; }
+  .nav-menu[open] summary::after { content: "⌃"; }
+  .nav-options { position: absolute; z-index: 20; top: calc(100% + 5px); right: 0; min-width: 190px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 9px; padding: 5px; box-shadow: 0 8px 24px rgba(0,0,0,.13); }
+  .nav-options a { display: block; text-decoration: none; color: var(--text-secondary); padding: 9px 11px; border-radius: 6px; font-size: 13px; }
+  .nav-options a:hover, .nav-options a:focus-visible { background: var(--accent-soft); color: var(--text-primary); }
+  .nav-options a[aria-current="page"] { color: var(--text-primary); font-weight: 600; }
+  @media (max-width: 480px) { .site-nav .nav-caption { font-size: 10px; } .nav-menu summary { min-width: 142px; } }
 </style>
 </head>
 <body>
@@ -171,6 +185,17 @@
       <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme">Theme</button>
     </div>
   </header>
+
+  <nav class="site-nav" aria-label="Site navigation">
+    <span class="nav-caption">Explore / Universe Courier</span>
+    <details class="nav-menu">
+      <summary aria-label="Navigate pages">Dashboard</summary>
+      <div class="nav-options">
+        <a href="/" aria-current="page">Dashboard</a>
+        <a href="/howitworks/" >How it works</a>
+      </div>
+    </details>
+  </nav>
 
   <div id="error" class="card error" hidden></div>
 
