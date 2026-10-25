@@ -119,6 +119,11 @@
   .legend { display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-muted); font-size: 12px; margin-top: 12px; }
   .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
 
+  .messages-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .messages-heading h2 { margin-bottom: 0; }
+  .export-btn { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); border-radius: 8px; padding: 7px 11px; font: 500 12px Inter, system-ui, sans-serif; cursor: pointer; }
+  .export-btn:hover:not(:disabled) { border-color: var(--series-1); color: var(--text-primary); }
+  .export-btn:disabled { opacity: .45; cursor: not-allowed; }
   .messages { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
   .msg { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
   .msg .text { font-family: Fraunces, Georgia, serif; font-size: 19px; line-height: 1.3; }
@@ -227,7 +232,10 @@
   </section>
 
   <section class="card">
-    <h2>Messages</h2>
+    <div class="messages-heading">
+      <h2>Messages</h2>
+      <button class="export-btn" id="exportMessages" type="button" disabled aria-label="Export all messages as CSV"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg>Export CSV</button>
+    </div>
     <p class="sub">Every message the universe has sent so far, newest first.</p>
     <ul class="messages" id="messages"></ul>
   </section>
@@ -308,6 +316,36 @@
     return [...byId.values()].sort((a, b) => b.id - a.id).slice(0, 120);
   }
 
+  // CSV is built from the complete snapshot, not just currently visible cards.
+  // Guard against spreadsheet formula execution when opened in Excel or Sheets.
+  function csvCell(value) {
+    let str = value == null ? "" : String(value);
+    if (/^[\s\u0000-\u001f]*[=+@-]/.test(str)) str = "'" + str;
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+  function exportMessagesCsv() {
+    const deliveries = data && Array.isArray(data.deliveries) ? data.deliveries : [];
+    if (!deliveries.length) return;
+    const headers = ["Message ID", "Timestamp (ISO)", "Category", "Message", "Seed 1", "Seed 2", "Seed 3", "Key 1", "Key 2", "Delivery status"];
+    const rows = deliveries.map(d => [
+      d.id ?? "", d.sent_at ?? "", d.category ?? "", d.text ?? "",
+      ...(Array.isArray(d.selection) ? [0,1,2].map(i => d.selection[i] ?? "") : ["", "", ""]),
+      ...(Array.isArray(d.timing) ? [0,1].map(i => d.timing[i] ?? "") : ["", ""]),
+      d.status ?? ""
+    ]);
+    const csv = '\uFEFF' + [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\r\n") + "\r\n";
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `universe_courier_messages_${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  $("exportMessages").addEventListener("click", exportMessagesCsv);
+
   // ---- render ----
   function render() {
     if (!data) return;
@@ -370,6 +408,7 @@
     // messages
     const list = $("messages");
     const ds = data.deliveries || [];
+    $("exportMessages").disabled = !ds.length;
     if (ds !== renderedDeliveries) {
     renderedDeliveries = ds;
     list.replaceChildren();
