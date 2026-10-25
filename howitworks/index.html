@@ -74,6 +74,15 @@
     --gold: #dfbd77; --gold-soft: #463c2d; --gold-glow: rgba(223,189,119,.42);
     --critical: #ed8484; --ok: #66c7ad; --star: rgba(215,235,255,.09);
   }
+  :root[data-theme="something"] {
+    color-scheme: something;
+    --bg: #C2B280; --surface-1: #c2b693; --border: #e3d4c2;
+    --text-primary: #104773; --text-secondary: #833121; --text-muted: #806c60;
+    --grid: #833121; --series-1: #104773; /* graph color */
+    --accent: #827750; --accent-soft: #f3dfd0;
+    --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
+    --critical: #b94b3d; --ok: #0d250b; --star: rgba(95,55,30,.055);
+  } 
 
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -214,6 +223,7 @@
         <option value="summer">Summer</option>
         <option value="autumn">Autumn</option>
         <option value="winter">Winter</option>
+        <option value="something">Something</option>        
       </select>
   </header>
   <nav class="site-nav" aria-label="Site navigation">
