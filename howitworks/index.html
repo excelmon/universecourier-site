@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How it works — Universe Courier</title>
+<link rel="icon" href="/assets/favicon-48.png" type="image/png">
 <meta name="description" content="How Universe Courier uses radioactive decay and random numbers to select and deliver messages.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,15 +75,16 @@
     --gold: #dfbd77; --gold-soft: #463c2d; --gold-glow: rgba(223,189,119,.42);
     --critical: #ed8484; --ok: #66c7ad; --star: rgba(215,235,255,.09);
   }
+
   :root[data-theme="japanese ecru"] {
-    color-scheme: japanese ecru;
+    color-scheme: light;
     --bg: #C2B280; --surface-1: #c2b693; --border: #e3d4c2;
     --text-primary: #104773; --text-secondary: #833121; --text-muted: #806c60;
     --grid: #833121; --series-1: #104773; /* graph color */
     --accent: #827750; --accent-soft: #f3dfd0;
     --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
     --critical: #b94b3d; --ok: #134e0e; --star: rgba(95,55,30,.055);
-  } 
+  }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -103,6 +105,9 @@
 
   header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 40px 0 28px; }
   h1 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(30px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; }
+  .brand-lockup { display: flex; align-items: center; gap: 13px; min-width: 0; }
+  .brand-logo { display: block; width: clamp(52px, 9vw, 72px); height: clamp(52px, 9vw, 72px); flex: none; object-fit: contain; }
+  .brand-copy { min-width: 0; }
   .tagline { margin: 6px 0 0; color: var(--text-secondary); }
   .status { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2.4s infinite; }
@@ -211,9 +216,12 @@
 <body>
 <div class="wrap">
   <header>
-    <div>
-      <h1>Universe Courier</h1>
-      <p class="tagline">Messages from the universe, delivered at random.</p>
+    <div class="brand-lockup">
+      <img class="brand-logo" src="/assets/universecourier_logo.png" alt="" width="72" height="72">
+      <div class="brand-copy">
+        <h1>Universe Courier</h1>
+        <p class="tagline">Messages from the universe, delivered at random.</p>
+      </div>
     </div>
     <select class="theme-select" id="themeSelect" aria-label="Color theme">
         <option value="paper">Paper</option>
@@ -223,7 +231,7 @@
         <option value="summer">Summer</option>
         <option value="autumn">Autumn</option>
         <option value="winter">Winter</option>
-        <option value="japanese ecru">Japanese Ecru</option>        
+        <option value="japanese ecru">Japanese Ecru</option>
       </select>
   </header>
   <nav class="site-nav" aria-label="Site navigation">
