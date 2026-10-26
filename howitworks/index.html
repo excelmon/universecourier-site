@@ -4,10 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How it works — Universe Courier</title>
-<link rel="icon"
-      href="/favicon.ico?v=4"
-      type="image/x-icon"
-      sizes="any">
+<link rel="icon" href="/assets/favicon-48.png" type="image/png">
 <meta name="description" content="How Universe Courier uses radioactive decay and random numbers to select and deliver messages.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -258,11 +255,11 @@
         <li><strong>Select.</strong> The three numbers immediately <em>before</em> the key pair seed the message retrieval algorithm, choosing from tarot cards, I Ching hexagrams, and short guidance.</li>
         <li><strong>Deliver.</strong> The selected message is sent to a phone through an ntfy push notification.</li>
       </ol>
-      <p class="example-note">Example sequence (illustrative):</p>
-      <div class="example-seq mono" aria-label="Seed 87, 53, 41 followed by trigger key 43, 2">
-        <span>87</span><span>53</span><span>41</span><span class="key">43</span><span class="key">2</span>
+      <p class="example-note">Example sequence from the stream (newest to oldest numbers):</p>
+      <div class="example-seq mono" aria-label="Newest first: trigger pair 2, 43 followed by preceding values 41, 53, 87">
+        <span class="key">2</span><span class="key">43</span><span>41</span><span>53</span><span>87</span>
       </div>
-      <p class="example-note">First three values: message selection · Last two values: trigger</p>
+      <p class="example-note">Numbers shown newest first, matching the live stream. The orange pair triggers delivery; the three preceding values select the message.</p>
     </section>
     <section class="card">
       <h2>What you're seeing on the dashboard</h2>
