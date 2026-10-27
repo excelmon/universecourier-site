@@ -310,9 +310,11 @@
 (() => {
   // ?data=sample-data.json lets you preview with a local file
   const params = new URLSearchParams(location.search);
-  const DATA_URL = params.get("data") || "https://data.universecourier.com/data.json";
-  // live ticker from the Pi through Cloudflare Tunnel (?live=off turns it off, ?live=<url> points elsewhere)
-  const LIVE_URL = params.get("live") === "off" ? null : (params.get("live") || "https://live.universecourier.com/latest.json");
+  // Data comes from the Universe Courier app on Azure (stage 2). The Pi uploads numbers every few seconds.
+  const API_BASE = "https://app-universecourier-grf8d6amfnh9exap.centralus-01.azurewebsites.net";
+  const DATA_URL = params.get("data") || `${API_BASE}/api/public/snapshot`;
+  // live stream (?live=off turns it off, ?live=<url> points elsewhere)
+  const LIVE_URL = params.get("live") === "off" ? null : (params.get("live") || `${API_BASE}/api/public/latest`);
   const LIVE_EVERY_MS = 5000;
   const KEY_VALUES = new Set([3, 10, 43, 2]);
   const STALE_MINUTES = 15;
@@ -406,19 +408,22 @@
     if (!data) return;
     const now = Date.now();
     const t = data.totals || {};
-    const genAge = (now - new Date(data.generated_at).getTime()) / 60000;
     const numbers = mergedNumbers();
     const snapTop = data.last_number ? data.last_number.id : 0;
     const extra = numbers.filter(n => n.id > snapTop).length;   // live numbers newer than the snapshot
     const top = numbers[0];
 
-    $("status").classList.toggle("live", liveOk);
-    if (liveOk) {
+    // Azure always answers, so "is it live?" is judged by the newest number, not by when the data was built
+    const topAt = top ? (top.at || top.received_at) : null;
+    const quiet = !topAt || (now - new Date(topAt).getTime()) / 60000 > STALE_MINUTES;
+    $("status").classList.toggle("live", liveOk && !quiet);
+    $("dot").classList.toggle("stale", quiet);
+    if (quiet) {
+      $("updated").textContent = topAt ? `No new numbers since ${ago(topAt, now)} — the Pi may be offline` : "Waiting for the first number";
+    } else if (liveOk) {
       $("updated").textContent = "Numbers arrive as they happen";
-      $("dot").classList.remove("stale");
     } else {
-      $("updated").textContent = `Updated ${ago(data.generated_at, now)}` + (genAge > STALE_MINUTES ? " — the Pi may be offline" : "");
-      $("dot").classList.toggle("stale", genAge > STALE_MINUTES);
+      $("updated").textContent = `Updated ${ago(data.generated_at, now)}`;
     }
 
     const latest = $("latestValue");
@@ -621,8 +626,8 @@
     }
   }
 
-  // Live ticker: poll every few seconds while the tab is visible. If it fails, the page quietly
-  // falls back to the 5-minute snapshot and keeps trying.
+  // Live stream: poll every few seconds while the tab is visible. If it fails, the page quietly
+  // falls back to the snapshot (refreshed every minute) and keeps trying.
   async function pollLive() {
     if (!LIVE_URL || document.visibilityState === "hidden") return;
     try {
