@@ -8,7 +8,7 @@
       href="/favicon.ico?v=4"
       type="image/x-icon"
       sizes="any">
-<meta name="description" content="How Universe Courier uses radioactive decay and random numbers to select and deliver messages.">
+<meta name="description" content="How Universe Courier picks and delivers messages at random.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -212,6 +212,8 @@
   .example-seq { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; margin: 16px 0 8px; }
   .example-seq span { display: inline-block; min-width: 39px; text-align: center; padding: 7px 9px; border: 1px solid var(--border); background: var(--bg); border-radius: 7px; }
   .example-seq .key { border-color: var(--accent); background: var(--accent-soft); }
+  .example-seq .confirmed { border-color: var(--gold); background: var(--gold-soft); color: var(--text-primary); font-weight: 600; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 35%, transparent), 0 0 12px var(--gold-glow); }
+  .explain a { color: var(--series-1); }
   .example-note { font-size: 12px; color: var(--text-muted); }
 </style>
 </head>
@@ -243,30 +245,34 @@
       <div class="nav-options">
         <a href="/" >Dashboard</a>
         <a href="/howitworks/" aria-current="page">How it works</a>
+        <a href="/about/">About</a>
       </div>
     </details>
   </nav>
   <main class="explain">
     <section class="card">
       <h2>How it works</h2>
-      <p>Universe Courier is an experiment in randomness, timing, and interpretation. Physical radioactive decay determines when a message is sent and which message is selected.</p>
+      <p>Universe Courier is a small experiment in chance and meaning. Nobody picks the messages. The timing and the choice both come from radioactive decay, which is about as random as nature gets.</p>
       <ol>
-        <li><strong>Generate.</strong> An Images SI RNG-01 hardware random number generator produces values from 1 to 128 using radioactive decay events.</li>
-        <li><strong>Record.</strong> A Raspberry Pi running a .NET 10 service reads the numbers over serial and stores them in SQLite.</li>
-        <li><strong>Detect.</strong> Two consecutive numbers matching either <span class="mono">3 → 10</span> or <span class="mono">43 → 2</span> trigger a message event.</li>
-        <li><strong>Select.</strong> The three numbers immediately <em>before</em> the key pair seed the message retrieval algorithm, choosing from tarot cards, I Ching hexagrams, and short guidance.</li>
-        <li><strong>Deliver.</strong> The selected message is sent to a phone through an ntfy push notification.</li>
+        <li><strong>Listen.</strong> A true random number generator produces a steady stream of numbers from 1 to 128.</li>
+        <li><strong>Wait for a sign.</strong> When two particular numbers appear back to back (<span class="mono">3</span> then <span class="mono">10</span>, or <span class="mono">43</span> then <span class="mono">2</span>), a message is on its way.</li>
+        <li><strong>Choose.</strong> The three numbers just before that pair pick the message: a tarot card, an I Ching hexagram, or a short piece of guidance.</li>
+        <li><strong>Deliver.</strong> The message arrives as a notification on a phone.</li>
       </ol>
-      <p class="example-note">Example sequence from the stream (newest to oldest numbers):</p>
-      <div class="example-seq mono" aria-label="Newest first: trigger pair 2, 43 followed by preceding values 41, 53, 87">
-        <span class="key">2</span><span class="key">43</span><span>41</span><span>53</span><span>87</span>
+      <p class="example-note">An example from the stream, newest number first:</p>
+      <div class="example-seq mono" aria-label="Newest first: the pair 2 and 43, then the three numbers before it: 41, 53, 87">
+        <span class="confirmed">2</span><span class="confirmed">43</span><span>41</span><span>53</span><span>87</span>
       </div>
-      <p class="example-note">Numbers shown newest first, matching the live stream. The orange pair triggers delivery; the three preceding values select the message.</p>
+      <p class="example-note">The gold pair (43, then 2) sends a message. The three numbers before it (87, 53, 41) decide which one.</p>
     </section>
     <section class="card">
-      <h2>What you're seeing on the dashboard</h2>
-      <p>The <a href="/" style="color:var(--series-1)">dashboard</a> displays the live number stream, recent messages, activity by hour, and the distribution of generated values. The Raspberry Pi uploads each new number to a small cloud app every few seconds, and this page reads from it, so new numbers appear within seconds.</p>
-      <p>The messages are interpretations selected by a random process, not predictions or evidence of a supernatural cause. The underlying number stream and trigger events can be observed directly.</p>
+      <h2>What to make of a message</h2>
+      <p>Most messages will just be messages. Every so often, one will land on a day when it means something, and you'll notice. Nothing here predicts the future or claims a hidden hand behind it. Universe Courier simply leaves the door open. What comes through is up to you.</p>
+      <p><a href="/about/">Why I built this &rarr;</a></p>
+    </section>
+    <section class="card">
+      <h2>On the dashboard</h2>
+      <p>The <a href="/">dashboard</a> shows the live number stream, recent messages, and a few charts of how the numbers are falling.</p>
     </section>
   </main>
   <footer><p>Universe Courier · <a href="/" style="color:inherit">Back to dashboard</a></p></footer>
