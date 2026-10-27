@@ -265,7 +265,7 @@
     </section>
     <section class="card">
       <h2>What you're seeing on the dashboard</h2>
-      <p>The <a href="/" style="color:var(--series-1)">dashboard</a> displays the live number stream, recent messages, activity by hour, and the distribution of generated values. A read-only database snapshot is exported to Cloudflare R2 every five minutes, while a cached read-only feed through Cloudflare Tunnel makes new numbers visible within seconds.</p>
+      <p>The <a href="/" style="color:var(--series-1)">dashboard</a> displays the live number stream, recent messages, activity by hour, and the distribution of generated values. The Raspberry Pi uploads each new number to a small cloud app every few seconds, and this page reads from it, so new numbers appear within seconds.</p>
       <p>The messages are interpretations selected by a random process, not predictions or evidence of a supernatural cause. The underlying number stream and trigger events can be observed directly.</p>
     </section>
   </main>
