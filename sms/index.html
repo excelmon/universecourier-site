@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text messages — Universe Courier</title>
+<link rel="icon"
+      href="/favicon.ico?v=4"
+      type="image/x-icon"
+      sizes="any">
+<meta name="description" content="How Universe Courier text messages work: what you get, how often, how to sign up, and how to stop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* THEME PALETTES: edit these variables to experiment with new colors. */
+  :root, :root[data-theme="paper"] {
+    color-scheme: light;
+    --bg: #f6f5f1; --surface-1: #fcfcfb; --border: #e2e0d8;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7975;
+    --grid: #ebe9e2; --series-1: #2a78d6;
+    --accent: #eb6834; --accent-soft: #fbe3d8;
+    --gold: #b88a26; --gold-soft: #f8ebc5; --gold-glow: rgba(202,153,47,.35);
+    --critical: #c62f2e; --ok: #1f8a4c; --star: rgba(11,11,11,.06);
+  }
+  /* Original Dark palette, preserved from your existing dashboard. */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0e0f14; --surface-1: #17181f; --border: #2a2b34;
+    --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e87;
+    --grid: #24252d; --series-1: #3987e5;
+    --accent: #e8743f; --accent-soft: #3a2318;
+    --gold: #d8a52f; --gold-soft: #40341d; --gold-glow: rgba(232,184,77,.42);
+    --critical: #e66767; --ok: #3fb871; --star: rgba(240,239,236,.10);
+  }
+  :root[data-theme="midnight"] {
+    color-scheme: dark;
+    --bg: #111622; --surface-1: #1b2231; --border: #343d50;
+    --text-primary: #f2f4fa; --text-secondary: #c4ccda; --text-muted: #94a1b6;
+    --grid: #2a3346; --series-1: #79a9f1;
+    --accent: #f38c69; --accent-soft: #452c2b;
+    --gold: #e6b75a; --gold-soft: #493b28; --gold-glow: rgba(230,183,90,.43);
+    --critical: #f07777; --ok: #55c999; --star: rgba(210,225,255,.08);
+  }
+  :root[data-theme="spring"] {
+    color-scheme: light;
+    --bg: #b7e4a1; --surface-1: #c9dfc4; --border: #04351e;
+    --text-primary: #22382b; --text-secondary: #526b59; --text-muted: #3b473c;
+    --grid: #e4eee2; --series-1: #438d80;
+    --accent: #be515e; --accent-soft: #dbb4c8;
+    --gold: #b78b30; --gold-soft: #f6eccd; --gold-glow: rgba(190,151,59,.32);
+    --critical: #b7474a; --ok: #145733; --star: rgba(50,90,55,.055);
+  }
+  :root[data-theme="summer"] {
+    color-scheme: light;
+    --bg: #b0d9fa; --surface-1: #e5eff7; --border: #af5842;
+    --text-primary: #3b5f51; --text-secondary: #446357; --text-muted: #495e56;
+    --grid: #efe5d4; --series-1: #1972aa;
+    --accent: #ee413b; --accent-soft: #ffbebe;
+    --gold: #ba8d25; --gold-soft: #faedc5; --gold-glow: rgba(202,153,47,.36);
+    --critical: #c64c44; --ok: #358459; --star: rgba(105,75,30,.055);
+  }
+  :root[data-theme="autumn"] {
+    color-scheme: light;
+    --bg: #d47629bb; --surface-1: #d1b9a5bb; --border: #d45929;
+    --text-primary: #392b26; --text-secondary: #561c64; --text-muted: #5c402f;
+    --grid: #eee1d1; --series-1: #561c64;
+    --accent: #5c150b; --accent-soft: #fd8037;
+    --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
+    --critical: #5c150b; --ok: #85f778; --star: rgba(95,55,30,.055);
+  }
+  :root[data-theme="winter"] {
+    color-scheme: dark;
+    --bg: #111e2a; --surface-1: #1b2b39; --border: #354a5c;
+    --text-primary: #e9f2f6; --text-secondary: #c2d2df; --text-muted: #9cb1c1;
+    --grid: #293d4c; --series-1: #75b7dc;
+    --accent: #e09aa3; --accent-soft: #49313f;
+    --gold: #dfbd77; --gold-soft: #463c2d; --gold-glow: rgba(223,189,119,.42);
+    --critical: #ed8484; --ok: #66c7ad; --star: rgba(215,235,255,.09);
+  }
+  :root[data-theme="japanese ecru"] {
+    color-scheme: light;
+    --bg: #C2B280; --surface-1: #f3dea0; --border: #6d524d;
+    --text-primary: #104773; --text-secondary: #833121; --text-muted: #806c60;
+    --grid: #833121; --series-1: #104773; /* graph color */
+    --accent: #0e3c61; --accent-soft: #a2b1c0;
+    --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
+    --critical: #b94b3d; --ok: #134e0e; --star: rgba(95,55,30,.055);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background:
+      radial-gradient(1px 1px at 12% 18%, var(--star) 99%, transparent),
+      radial-gradient(1px 1px at 72% 9%,  var(--star) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 88% 34%, var(--star) 99%, transparent),
+      radial-gradient(1px 1px at 33% 41%, var(--star) 99%, transparent),
+      radial-gradient(1px 1px at 56% 27%, var(--star) 99%, transparent),
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font: 15px/1.5 Inter, system-ui, sans-serif;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px 64px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 40px 0 28px; }
+  h1 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(30px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; }
+  .brand-lockup { display: flex; align-items: center; gap: 13px; min-width: 0; }
+  .brand-logo { display: block; width: clamp(52px, 9vw, 72px); height: clamp(52px, 9vw, 72px); flex: none; object-fit: contain; }
+  .brand-copy { min-width: 0; }
+  .tagline { margin: 6px 0 0; color: var(--text-secondary); }
+  .status { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2.4s infinite; }
+  .dot.stale { background: var(--critical); animation: none; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent); } 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .live-badge { display: none; font-size: 11px; font-weight: 600; letter-spacing: .08em; color: var(--ok); border: 1px solid var(--ok); border-radius: 999px; padding: 1px 7px; }
+  .live .live-badge { display: inline-block; }
+  .chip.arrive { animation: arrive .9s ease-out; }
+  @keyframes arrive { from { transform: translateY(-6px) scale(1.15); background: color-mix(in srgb, var(--series-1) 25%, transparent); } to { transform: none; } }
+  .big.flash { animation: flash 1.2s ease-out; }
+  @keyframes flash { from { color: var(--series-1); text-shadow: 0 0 24px color-mix(in srgb, var(--series-1) 50%, transparent); } to { color: inherit; text-shadow: none; } }
+  @media (prefers-reduced-motion: reduce) { .chip.arrive, .big.flash, .dot { animation: none; } }
+  .theme-select { appearance: auto; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary); border-radius: 8px; padding: 6px 9px; font: 500 12px Inter, system-ui, sans-serif; cursor: pointer; max-width: 135px; }
+  .theme-select:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
+  .theme-select option { background: var(--surface-1); color: var(--text-primary); }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  h2 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 20px; margin: 0 0 4px; }
+  .sub { color: var(--text-muted); font-size: 13px; margin: 0 0 16px; }
+  section { margin-top: 20px; }
+
+  .hero { display: grid; grid-template-columns: minmax(200px, 1fr) 2fr; gap: 20px; }
+  @media (max-width: 720px) { .hero { grid-template-columns: 1fr; } }
+  .latest { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+  .latest .label { color: var(--text-secondary); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+  .latest .big { font-size: clamp(64px, 14vw, 104px); font-weight: 600; line-height: 1; margin: 8px 0; }
+  .latest .when { color: var(--text-muted); font-size: 13px; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat .v { font-size: 26px; font-weight: 600; line-height: 1.2; }
+  .stat .k { color: var(--text-secondary); font-size: 13px; }
+  .stat .n { color: var(--text-muted); font-size: 12px; }
+
+  .stream { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { min-width: 40px; padding: 5px 0; text-align: center; border-radius: 8px; border: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
+  .chip.key { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); font-weight: 600; }
+  .chip.newest { outline: 2px solid var(--series-1); outline-offset: 1px; color: var(--text-primary); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-muted); font-size: 12px; margin-top: 12px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+
+  .messages { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .msg { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
+  .msg .text { font-family: Fraunces, Georgia, serif; font-size: 19px; line-height: 1.3; }
+  .msg .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--text-muted); font-size: 12px; }
+  /* Compact five-number record below each delivered message. */
+  .msg-sequence { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+  .msg-sequence .seq-label { color: var(--text-muted); font: 10px/1.3 "JetBrains Mono", monospace; letter-spacing: .04em; margin-right: 3px; }
+  .msg-sequence .seq-num { min-width: 29px; text-align: center; padding: 3px 5px; border: 1px solid var(--border); border-radius: 5px; color: var(--text-secondary); background: var(--bg); font: 11px/1.4 "JetBrains Mono", monospace; }
+  .msg-sequence .seq-num.trigger { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); font-weight: 600; }
+  .msg-sequence .seq-arrow { color: var(--text-muted); font-size: 12px; margin: 0 2px; }
+  .msg-sequence .seq-note { color: var(--text-muted); font-size: 10px; margin-left: 5px; }
+  .tag { border: 1px solid var(--border); border-radius: 999px; padding: 0 8px; color: var(--text-secondary); }
+  .tag.failed { border-color: var(--critical); color: var(--critical); }
+  .empty { color: var(--text-muted); font-style: italic; }
+
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 860px) { .charts { grid-template-columns: 1fr; } }
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: 220px; overflow: visible; }
+  .chart .axis text { fill: var(--text-muted); font-size: 11px; font-family: Inter, sans-serif; }
+  .chart .gridline { stroke: var(--grid); stroke-width: 1; }
+  .chart .bar { fill: var(--series-1); pointer-events: none; }
+  .chart .bar.dim { opacity: .35; }
+  .chart .hit { fill: transparent; cursor: crosshair; }
+  .chart .hit:hover + .bar, .chart .hit:focus + .bar { fill: var(--accent); }
+  .chart .ref { stroke: var(--text-secondary); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .tip { position: absolute; pointer-events: none; background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--text-secondary); box-shadow: 0 4px 16px rgba(0,0,0,.12); white-space: nowrap; display: none; z-index: 2; }
+  .tip strong { color: var(--text-primary); font-size: 14px; display: block; }
+  details { margin-top: 12px; color: var(--text-secondary); font-size: 13px; }
+  summary { cursor: pointer; color: var(--text-muted); }
+  .tbl-wrap { max-height: 260px; overflow: auto; margin-top: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; }
+  th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--grid); }
+  th { color: var(--text-muted); font-weight: 500; position: sticky; top: 0; background: var(--surface-1); }
+
+  footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px; max-width: 70ch; }
+  footer p { margin: 0 0 8px; }
+  .error { border-color: var(--critical); color: var(--critical); }
+
+  /* Shared page navigation */
+  .site-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .site-nav .nav-caption { color: var(--text-muted); font: 11px "JetBrains Mono", monospace; letter-spacing: .09em; text-transform: uppercase; }
+  .nav-menu { position: relative; margin: 0; color: var(--text-primary); }
+  .nav-menu summary { list-style: none; display: flex; align-items: center; gap: 12px; min-width: 155px; justify-content: space-between; cursor: pointer; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary); border-radius: 8px; padding: 7px 12px; font-size: 13px; }
+  .nav-menu summary::-webkit-details-marker { display: none; }
+  .nav-menu summary::after { content: "⌄"; color: var(--text-muted); font-size: 17px; line-height: 1; }
+  .nav-menu[open] summary::after { content: "⌃"; }
+  .nav-options { position: absolute; z-index: 20; top: calc(100% + 5px); right: 0; min-width: 190px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 9px; padding: 5px; box-shadow: 0 8px 24px rgba(0,0,0,.13); }
+  .nav-options a { display: block; text-decoration: none; color: var(--text-secondary); padding: 9px 11px; border-radius: 6px; font-size: 13px; }
+  .nav-options a:hover, .nav-options a:focus-visible { background: var(--accent-soft); color: var(--text-primary); }
+  .nav-options a[aria-current="page"] { color: var(--text-primary); font-weight: 600; }
+  @media (max-width: 480px) { .site-nav .nav-caption { font-size: 10px; } .nav-menu summary { min-width: 142px; } }
+
+  .explain { max-width: 760px; }
+  .explain h2 { margin-bottom: 12px; }
+  .explain p { color: var(--text-secondary); }
+  .explain ol { padding-left: 24px; color: var(--text-secondary); }
+  .explain li { margin: 0 0 12px; }
+  .explain strong { color: var(--text-primary); }
+  .example-seq { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; margin: 16px 0 8px; }
+  .example-seq span { display: inline-block; min-width: 39px; text-align: center; padding: 7px 9px; border: 1px solid var(--border); background: var(--bg); border-radius: 7px; }
+  .example-seq .key { border-color: var(--accent); background: var(--accent-soft); }
+  .example-seq .confirmed { border-color: var(--gold); background: var(--gold-soft); color: var(--text-primary); font-weight: 600; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 35%, transparent), 0 0 12px var(--gold-glow); }
+  .explain a { color: var(--series-1); }
+  .explain ul { padding-left: 22px; color: var(--text-secondary); }
+  .explain ul li { margin: 0 0 8px; }
+  .explain h3 { font-size: 15px; margin: 18px 0 6px; color: var(--text-primary); }
+  .updated { color: var(--text-muted); font-size: 13px; margin: 0 0 14px; }
+  .example-note { font-size: 12px; color: var(--text-muted); }
+
+  /* Text-message opt-in preview (sms page) */
+  .mock { border: 1px dashed var(--border); border-radius: 12px; padding: 18px; background: var(--bg); max-width: 480px; margin: 14px 0 8px; }
+  .mock-label { font: 11px "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 12px; }
+  .mock .mock-title { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 17px; color: var(--text-primary); margin: 0 0 12px; }
+  .mock .field { display: grid; gap: 5px; margin: 0 0 14px; }
+  .mock .field span { font-size: 13px; color: var(--text-secondary); }
+  .mock .input { border: 1px solid var(--border); background: var(--surface-1); border-radius: 8px; padding: 8px 10px; color: var(--text-muted); font: 14px "JetBrains Mono", monospace; }
+  .mock .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--text-secondary); margin: 0 0 14px; }
+  .mock .box { flex: none; width: 16px; height: 16px; border: 1.5px solid var(--text-muted); border-radius: 3px; margin-top: 2px; background: var(--surface-1); }
+  .mock .btn { display: inline-block; border-radius: 8px; padding: 8px 14px; background: var(--accent); color: #fff; font-weight: 600; font-size: 13px; }
+  .bubbles { display: grid; gap: 10px; margin: 12px 0 4px; }
+  .bubble { max-width: 440px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px 14px 14px 4px; padding: 10px 13px; font-size: 14px; color: var(--text-primary); }
+  .bubble small { display: block; color: var(--text-muted); font: 11px "JetBrains Mono", monospace; letter-spacing: .05em; margin-bottom: 3px; text-transform: uppercase; }
+  .bubble.reply { justify-self: end; border-radius: 14px 14px 4px 14px; background: var(--accent-soft); border-color: var(--accent); font: 600 14px "JetBrains Mono", monospace; padding: 6px 12px; }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; color: var(--text-secondary); }
+  .facts dt { color: var(--text-primary); font-weight: 600; }
+  .facts dd { margin: 0; }
+  @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } .facts dd { margin-bottom: 8px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand-lockup">
+      <img class="brand-logo" src="/assets/universecourier_logo.png" alt="" width="72" height="72">
+      <div class="brand-copy">
+        <h1>Universe Courier</h1>
+        <p class="tagline">Messages from the universe, delivered at random.</p>
+      </div>
+    </div>
+    <select class="theme-select" id="themeSelect" aria-label="Color theme">
+        <option value="paper">Paper</option>
+        <option value="dark">Dark (original)</option>
+        <option value="midnight">Midnight</option>
+        <option value="spring">Spring</option>
+        <option value="summer">Summer</option>
+        <option value="autumn">Autumn</option>
+        <option value="winter">Winter</option>
+        <option value="japanese ecru">Japanese Ecru</option>
+      </select>
+  </header>
+  <nav class="site-nav" aria-label="Site navigation">
+    <span class="nav-caption">Explore / Universe Courier</span>
+    <details class="nav-menu">
+      <summary aria-label="Navigate pages">Text messages</summary>
+      <div class="nav-options">
+        <a href="/">Dashboard</a>
+        <a href="/howitworks/">How it works</a>
+        <a href="/about/">About</a>
+        <a href="/sms/" aria-current="page">Text messages</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+      </div>
+    </details>
+  </nav>
+  <main class="explain">
+    <section class="card">
+      <h2>Text messages</h2>
+      <p class="updated">Last updated October 28, 2026</p>
+      <p>Universe Courier can deliver its messages by text (SMS). Texts go only to people who sign up for them and confirm their number. This page explains the program. The same terms are in the <a href="/terms/">Terms</a> and the <a href="/privacy/">Privacy Policy</a>.</p>
+    </section>
+    <section class="card">
+      <h2>Program details</h2>
+      <dl class="facts">
+        <dt>Program</dt><dd>Universe Courier random messages</dd>
+        <dt>Sent by</dt><dd>Universe Courier, a free personal project operated by Phillip Berger</dd>
+        <dt>What you get</dt><dd>Short messages, such as a tarot card, an I Ching hexagram, or a quote to reflect on, chosen by a hardware random number generator</dd>
+        <dt>How often</dt><dd>Recurring, at random times: usually about one message every 1&ndash;2 days</dd>
+        <dt>Cost</dt><dd>Free from Universe Courier. Message and data rates may apply from your mobile carrier.</dd>
+        <dt>Who can join</dt><dd>Universe Courier is invite-only for now (friends and family). Each person signs up for texts themselves.</dd>
+        <dt>Stop</dt><dd>Reply <span class="mono">STOP</span> at any time to stop all texts. You'll get one final text confirming it, and nothing after that.</dd>
+        <dt>Help</dt><dd>Reply <span class="mono">HELP</span>, or email <a href="mailto:privacy@universecourier.com">privacy@universecourier.com</a></dd>
+      </dl>
+      <p>Mobile carriers are not liable for delayed or undelivered messages.</p>
+    </section>
+    <section class="card">
+      <h2>How to sign up</h2>
+      <ol>
+        <li>Create a Universe Courier account using your invitation.</li>
+        <li>In your account settings, enter your mobile number and check the consent box. The box is never checked for you, and texts are optional: you can use Universe Courier without them.</li>
+        <li>Universe Courier texts a 6-digit code to that number. Texts start only after you enter the code, which confirms the phone is yours.</li>
+        <li>You get a confirmation text. Messages then arrive at random.</li>
+      </ol>
+      <div class="mock" role="img" aria-label="Preview of the text-message sign-up form in account settings">
+        <p class="mock-label">Preview: account settings</p>
+        <p class="mock-title">Text messages</p>
+        <div class="field"><span>Mobile number</span><div class="input">(555) 555-0123</div></div>
+        <div class="consent"><span class="box"></span><span>I agree to receive recurring automated text messages from Universe Courier at the mobile number above, sent at random times, usually about one every 1&ndash;2 days. Consent is not a condition of any purchase. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel at any time. See the <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms</a>.</span></div>
+        <span class="btn">Send verification code</span>
+      </div>
+      <div class="mock" role="img" aria-label="Preview of the verification code step">
+        <p class="mock-label">Preview: confirm your number</p>
+        <div class="field"><span>Enter the 6-digit code sent to (555) 555-0123</span><div class="input">&bull; &bull; &bull; &bull; &bull; &bull;</div></div>
+        <span class="btn">Verify and start texts</span>
+      </div>
+      <p class="example-note">The account area is invitation-only, so these previews show the sign-up step exactly as it appears there.</p>
+    </section>
+    <section class="card">
+      <h2>What the texts look like</h2>
+      <div class="bubbles">
+        <div class="bubble"><small>Verification</small>Universe Courier: Your verification code is 482915. Msg &amp; data rates may apply. Reply STOP to cancel.</div>
+        <div class="bubble"><small>Confirmation</small>Universe Courier: You're signed up for random messages, usually about one every 1-2 days. Msg &amp; data rates may apply. Reply HELP for help, STOP to cancel.</div>
+        <div class="bubble"><small>Example message</small>Universe Courier: The Star. Hope returns quietly. What are you ready to trust again?</div>
+        <div class="bubble reply">HELP</div>
+        <div class="bubble"><small>Help reply</small>Universe Courier: random messages from a personal project by Phillip Berger. Help: privacy@universecourier.com. Msg &amp; data rates may apply. Reply STOP to cancel.</div>
+        <div class="bubble reply">STOP</div>
+        <div class="bubble"><small>Stop reply</small>Universe Courier: You're unsubscribed and won't get any more texts. Reply START to sign up again.</div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Your number stays private</h2>
+      <p>Your phone number is used only to send you Universe Courier messages. No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging opt-in data and consent will not be shared with any third parties. Details are in the <a href="/privacy/">Privacy Policy</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <p>Universe Courier is a personal project operated by Phillip Berger. Contact: <a href="mailto:privacy@universecourier.com" style="color:inherit">privacy@universecourier.com</a></p>
+    <p><a href="/" style="color:inherit">Dashboard</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy</a> · <a href="/terms/" style="color:inherit">Terms</a></p>
+  </footer>
+</div>
+<script>
+(() => {
+  // ---- theme selection (persisted across both pages) ----
+  const root = document.documentElement;
+  const themeSelect = document.getElementById("themeSelect");
+  const themeNames = new Set(["paper", "dark", "midnight", "spring", "summer", "autumn", "winter", "japanese ecru"]);
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem("uc-theme"); } catch (e) {}
+  // Migrate the old light/dark toggle setting; retain system preference for first-time visitors.
+  const initialTheme = savedTheme === "light" ? "paper" :
+    themeNames.has(savedTheme) ? savedTheme :
+    (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "paper");
+  root.dataset.theme = initialTheme;
+  themeSelect.value = initialTheme;
+  themeSelect.addEventListener("change", () => {
+    const selected = themeSelect.value;
+    if (!themeNames.has(selected)) return;
+    root.dataset.theme = selected;
+    try { localStorage.setItem("uc-theme", selected); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>
