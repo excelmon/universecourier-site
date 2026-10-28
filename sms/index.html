@@ -270,8 +270,8 @@
         <a href="/howitworks/">How it works</a>
         <a href="/about/">About</a>
         <a href="/sms/" aria-current="page">Text messages</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms &amp; Conditions</a>
       </div>
     </details>
   </nav>
@@ -279,7 +279,7 @@
     <section class="card">
       <h2>Text messages</h2>
       <p class="updated">Last updated October 28, 2026</p>
-      <p>Universe Courier can deliver its messages by text (SMS). Texts go only to people who sign up for them and confirm their number. This page explains the program. The same terms are in the <a href="/terms/">Terms</a> and the <a href="/privacy/">Privacy Policy</a>.</p>
+      <p>Universe Courier can deliver its messages by text (SMS). Texts go only to people who sign up for them and confirm their number. This page explains the program. The same terms are in the <a href="/terms/">Terms &amp; Conditions</a> and the <a href="/privacy/">Privacy Policy</a>.</p>
     </section>
     <section class="card">
       <h2>Program details</h2>
@@ -303,11 +303,12 @@
         <li>Universe Courier texts a 6-digit code to that number. Texts start only after you enter the code, which confirms the phone is yours.</li>
         <li>You get a confirmation text. Messages then arrive at random.</li>
       </ol>
+      <div id="optin-proof">
       <div class="mock" role="img" aria-label="Preview of the text-message sign-up form in account settings">
         <p class="mock-label">Preview: account settings</p>
         <p class="mock-title">Text messages</p>
         <div class="field"><span>Mobile number</span><div class="input">(555) 555-0123</div></div>
-        <div class="consent"><span class="box"></span><span>I agree to receive recurring automated text messages from Universe Courier at the mobile number above, sent at random times, usually about one every 1&ndash;2 days. Consent is not a condition of any purchase. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel at any time. See the <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms</a>.</span></div>
+        <div class="consent"><span class="box"></span><span>I agree to receive recurring automated text messages from Universe Courier at the mobile number above, sent at random times, usually about one every 1&ndash;2 days. Consent is not a condition of any purchase. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel at any time. See the <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms &amp; Conditions</a>.</span></div>
         <span class="btn">Send verification code</span>
       </div>
       <div class="mock" role="img" aria-label="Preview of the verification code step">
@@ -315,7 +316,14 @@
         <div class="field"><span>Enter the 6-digit code sent to (555) 555-0123</span><div class="input">&bull; &bull; &bull; &bull; &bull; &bull;</div></div>
         <span class="btn">Verify and start texts</span>
       </div>
-      <p class="example-note">The account area is invitation-only, so these previews show the sign-up step exactly as it appears there.</p>
+      <div class="mock" role="img" aria-label="Preview of the confirmation shown after verifying">
+        <p class="mock-label">Preview: after verifying</p>
+        <p class="mock-title">Text messages are on</p>
+        <p style="margin:0 0 10px;font-size:13px;color:var(--text-secondary)">Texts will go to <span class="mono">(555) 555-0123</span>. Messages arrive at random, usually about one every 1&ndash;2 days. Msg &amp; data rates may apply. Reply STOP to any text to cancel, or HELP for help. A confirmation text is on its way.</p>
+        <span class="btn" style="background:var(--surface-1);color:var(--text-primary);border:1px solid var(--border)">Turn off texts</span>
+      </div>
+      </div>
+      <p class="example-note">The account area is invitation-only, so these previews show the sign-up step exactly as it appears there. <a href="/sms/opt-in-screenshot.png">Screenshot of the sign-up flow</a>.</p>
     </section>
     <section class="card">
       <h2>What the texts look like</h2>
@@ -336,7 +344,7 @@
   </main>
   <footer>
     <p>Universe Courier is a personal project operated by Phillip Berger. Contact: <a href="mailto:privacy@universecourier.com" style="color:inherit">privacy@universecourier.com</a></p>
-    <p><a href="/" style="color:inherit">Dashboard</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy</a> · <a href="/terms/" style="color:inherit">Terms</a></p>
+    <p><a href="/" style="color:inherit">Dashboard</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy Policy</a> · <a href="/terms/" style="color:inherit">Terms &amp; Conditions</a></p>
   </footer>
 </div>
 <script>
