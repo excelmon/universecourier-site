@@ -238,6 +238,16 @@
   .facts dt { color: var(--text-primary); font-weight: 600; }
   .facts dd { margin: 0; }
   @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } .facts dd { margin-bottom: 8px; } }
+  .mock .hint { font-size: 12px; color: var(--text-muted); margin: 0 0 14px; }
+  .mock .btn.secondary { background: var(--surface-1); color: var(--text-primary); border: 1px solid var(--border); }
+  .mock .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mock .option { display: flex; gap: 10px; align-items: center; border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; margin: 0 0 14px; background: var(--surface-1); font-size: 13px; color: var(--text-secondary); }
+  .mock .option strong { color: var(--text-primary); }
+  .mock .tick { flex: none; width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid var(--text-muted); }
+  .mock .tick.on { background: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 3px var(--surface-1); }
+  .mock .optional-block { border-top: 1px solid var(--border); padding-top: 12px; }
+  .mock .sub-title { font-weight: 600; color: var(--text-primary); margin: 0 0 10px; font-size: 14px; }
+  .mock .optional { font: 10px "JetBrains Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border); border-radius: 999px; padding: 1px 7px; margin-left: 6px; vertical-align: 1px; }
 </style>
 </head>
 <body>
@@ -279,17 +289,17 @@
     <section class="card">
       <h2>Text messages</h2>
       <p class="updated">Last updated October 28, 2026</p>
-      <p>Universe Courier can deliver its messages by text (SMS). Texts go only to people who sign up for them and confirm their number. This page explains the program. The same terms are in the <a href="/terms/">Terms &amp; Conditions</a> and the <a href="/privacy/">Privacy Policy</a>.</p>
+      <p>Universe Courier can deliver its messages by text (SMS). Texts are optional: they go only to account holders who separately agree to receive them and confirm their number. This page explains the program. The same terms are in the <a href="/terms/">Terms &amp; Conditions</a> and the <a href="/privacy/">Privacy Policy</a>.</p>
     </section>
     <section class="card">
       <h2>Program details</h2>
       <dl class="facts">
         <dt>Program</dt><dd>Universe Courier random messages</dd>
-        <dt>Sent by</dt><dd>Universe Courier, a free personal project operated by Phillip Berger</dd>
+        <dt>Sent by</dt><dd>Universe Courier, a random-message service operated by sole proprietor Phillip Berger</dd>
         <dt>What you get</dt><dd>Short messages, such as a tarot card, an I Ching hexagram, or a quote to reflect on, chosen by a hardware random number generator</dd>
         <dt>How often</dt><dd>Recurring, at random times: usually about one message every 1&ndash;2 days</dd>
         <dt>Cost</dt><dd>Free from Universe Courier. Message and data rates may apply from your mobile carrier.</dd>
-        <dt>Who can join</dt><dd>Universe Courier is invite-only for now (friends and family). Each person signs up for texts themselves.</dd>
+        <dt>Who can join</dt><dd>Universe Courier is currently free and open by invitation. Texts are optional: you can use the service without them, and each person turns texts on themselves.</dd>
         <dt>Stop</dt><dd>Reply <span class="mono">STOP</span> at any time to stop all texts. You'll get one final text confirming it, and nothing after that.</dd>
         <dt>Help</dt><dd>Reply <span class="mono">HELP</span>, or email <a href="mailto:privacy@universecourier.com">privacy@universecourier.com</a></dd>
       </dl>
@@ -297,44 +307,60 @@
     </section>
     <section class="card">
       <h2>How to sign up</h2>
+      <p><strong>Texts are optional.</strong> You don't need a phone number to create an account or use Universe Courier, and agreeing to the Terms &amp; Conditions does not sign you up for texts. Messages can come by push notification instead. Texts start only if you check the separate text-message consent box and confirm your number.</p>
       <ol>
-        <li>Create a Universe Courier account using your invitation.</li>
-        <li>In your account settings, enter your mobile number and check the consent box. The box is never checked for you, and texts are optional: you can use Universe Courier without them.</li>
-        <li>Universe Courier texts a 6-digit code to that number. Texts start only after you enter the code, which confirms the phone is yours.</li>
-        <li>You get a confirmation text. Messages then arrive at random.</li>
+        <li>Create a Universe Courier account using your invitation. The sign-up form asks only for your name, email address, and a password. It has no phone number field and no text-message consent.</li>
+        <li>Choose how messages reach you in your delivery settings. Push notifications need no phone number. To get texts, enter your mobile number and check the text-message consent box, which is never checked for you. To skip texts, leave the box unchecked or choose <em>Skip texts</em>. Your account works the same either way.</li>
+        <li>If you chose texts, Universe Courier texts a 6-digit code to that number. Texts start only after you enter the code.</li>
+        <li>You get a confirmation text, and messages then arrive at random. You can turn texts off in settings, or reply STOP, at any time.</li>
       </ol>
       <div id="optin-proof">
-      <div class="mock" role="img" aria-label="Preview of the text-message sign-up form in account settings">
-        <p class="mock-label">Preview: account settings</p>
-        <p class="mock-title">Text messages</p>
-        <div class="field"><span>Mobile number</span><div class="input">(555) 555-0123</div></div>
-        <div class="consent"><span class="box"></span><span>I agree to receive recurring automated text messages from Universe Courier at the mobile number above, sent at random times, usually about one every 1&ndash;2 days. Consent is not a condition of any purchase. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel at any time. See the <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms &amp; Conditions</a>.</span></div>
-        <span class="btn">Send verification code</span>
+      <div class="mock" role="img" aria-label="Preview of the account sign-up form, which has no phone number or text-message consent">
+        <p class="mock-label">Preview: step 1, create your account</p>
+        <p class="mock-title">Create your account</p>
+        <div class="field"><span>Name</span><div class="input">Your name</div></div>
+        <div class="field"><span>Email</span><div class="input">you@example.com</div></div>
+        <div class="field"><span>Password</span><div class="input">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</div></div>
+        <p class="hint">By creating an account you agree to the <a href="/terms/">Terms &amp; Conditions</a> and <a href="/privacy/">Privacy Policy</a>. This does not sign you up for text messages.</p>
+        <span class="btn">Create account</span>
+      </div>
+      <div class="mock" role="img" aria-label="Preview of delivery settings with an optional, unchecked text-message consent box and a Skip texts button">
+        <p class="mock-label">Preview: step 2, delivery settings</p>
+        <p class="mock-title">How should messages reach you?</p>
+        <div class="option"><span class="tick on"></span><span><strong>Push notification</strong> &middot; no phone number needed</span></div>
+        <div class="optional-block">
+          <p class="sub-title">Text messages <span class="optional">Optional</span></p>
+          <div class="field"><span>Mobile number (optional)</span><div class="input">(555) 555-0123</div></div>
+          <div class="consent"><span class="box"></span><span>I agree to receive recurring automated text messages from Universe Courier at the mobile number above, sent at random times, usually about one every 1&ndash;2 days. Consent is not a condition of any purchase. Msg &amp; data rates may apply. Reply HELP for help or STOP to cancel at any time. See the <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms &amp; Conditions</a>.</span></div>
+          <div class="btn-row"><span class="btn">Send verification code</span><span class="btn secondary">Skip texts</span></div>
+          <p class="hint" style="margin:12px 0 0">Skipping texts doesn't affect your account. You can add texts later, or turn them off at any time.</p>
+        </div>
       </div>
       <div class="mock" role="img" aria-label="Preview of the verification code step">
-        <p class="mock-label">Preview: confirm your number</p>
+        <p class="mock-label">Preview: step 3, confirm your number (only if you chose texts)</p>
         <div class="field"><span>Enter the 6-digit code sent to (555) 555-0123</span><div class="input">&bull; &bull; &bull; &bull; &bull; &bull;</div></div>
         <span class="btn">Verify and start texts</span>
       </div>
       <div class="mock" role="img" aria-label="Preview of the confirmation shown after verifying">
-        <p class="mock-label">Preview: after verifying</p>
+        <p class="mock-label">Preview: step 4, after verifying</p>
         <p class="mock-title">Text messages are on</p>
         <p style="margin:0 0 10px;font-size:13px;color:var(--text-secondary)">Texts will go to <span class="mono">(555) 555-0123</span>. Messages arrive at random, usually about one every 1&ndash;2 days. Msg &amp; data rates may apply. Reply STOP to any text to cancel, or HELP for help. A confirmation text is on its way.</p>
         <span class="btn" style="background:var(--surface-1);color:var(--text-primary);border:1px solid var(--border)">Turn off texts</span>
       </div>
       </div>
-      <p class="example-note">The account area is invitation-only, so these previews show the sign-up step exactly as it appears there. <a href="/sms/opt-in-screenshot.png">Screenshot of the sign-up flow</a>.</p>
+      </div>
+      <p class="example-note">The account area is invitation-only, so these previews show the sign-up flow exactly as it appears there. <a href="/sms/opt-in-screenshot.png">Screenshot of the sign-up flow</a>.</p>
     </section>
     <section class="card">
       <h2>What the texts look like</h2>
       <div class="bubbles">
-        <div class="bubble"><small>Verification</small>Universe Courier: Your verification code is 482915. Msg &amp; data rates may apply. Reply STOP to cancel.</div>
-        <div class="bubble"><small>Confirmation</small>Universe Courier: You're signed up for random messages, usually about one every 1-2 days. Msg &amp; data rates may apply. Reply HELP for help, STOP to cancel.</div>
-        <div class="bubble"><small>Example message</small>Universe Courier: The Star. Hope returns quietly. What are you ready to trust again?</div>
+        <div class="bubble"><small>Verification</small>Universe Courier by Phillip Berger: Your verification code is 482915. Msg &amp; data rates may apply. Reply STOP to opt out.</div>
+        <div class="bubble"><small>Confirmation</small>Universe Courier by Phillip Berger: You're signed up for random messages, usually about one every 1-2 days. Msg &amp; data rates may apply. Reply HELP for help, STOP to cancel.</div>
+        <div class="bubble"><small>Example message</small>Universe Courier by Phillip Berger: The Star. Hope returns quietly. What are you ready to trust again? Reply STOP to opt out.</div>
         <div class="bubble reply">HELP</div>
-        <div class="bubble"><small>Help reply</small>Universe Courier: random messages from a personal project by Phillip Berger. Help: privacy@universecourier.com. Msg &amp; data rates may apply. Reply STOP to cancel.</div>
+        <div class="bubble"><small>Help reply</small>Universe Courier by Phillip Berger: random messages, usually about one every 1-2 days. Help: privacy@universecourier.com. Msg &amp; data rates may apply. Reply STOP to cancel.</div>
         <div class="bubble reply">STOP</div>
-        <div class="bubble"><small>Stop reply</small>Universe Courier: You're unsubscribed and won't get any more texts. Reply START to sign up again.</div>
+        <div class="bubble"><small>Stop reply</small>Universe Courier by Phillip Berger: You're unsubscribed and won't get any more texts. Reply START to sign up again.</div>
       </div>
     </section>
     <section class="card">
@@ -343,7 +369,7 @@
     </section>
   </main>
   <footer>
-    <p>Universe Courier is a personal project operated by Phillip Berger. Contact: <a href="mailto:privacy@universecourier.com" style="color:inherit">privacy@universecourier.com</a></p>
+    <p>Universe Courier is operated by Phillip Berger. Contact: <a href="mailto:privacy@universecourier.com" style="color:inherit">privacy@universecourier.com</a></p>
     <p><a href="/" style="color:inherit">Dashboard</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy Policy</a> · <a href="/terms/" style="color:inherit">Terms &amp; Conditions</a></p>
   </footer>
 </div>
