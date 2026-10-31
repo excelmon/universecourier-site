@@ -157,7 +157,14 @@
   .export-btn { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); border-radius: 8px; padding: 7px 11px; font: 500 12px Inter, system-ui, sans-serif; cursor: pointer; }
   .export-btn:hover:not(:disabled) { border-color: var(--series-1); color: var(--text-primary); }
   .export-btn:disabled { opacity: .45; cursor: not-allowed; }
-  .messages { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .messages { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; position: relative; }
+  /* More than 4 messages: the list scrolls inside the card (height set in JS to fit the newest 4, plus a peek of the next). */
+  .messages.scrolling { max-height: var(--messages-max, 560px); overflow-y: auto; overscroll-behavior: contain; padding-right: 6px;
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); }
+  .messages.scrolling.at-end { -webkit-mask-image: none; mask-image: none; }
+  .messages.scrolling:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 10px; }
+  .messages-count { color: var(--text-muted); font-size: 12px; margin: 10px 0 0; }
   .msg { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
   .msg .text { font-family: Fraunces, Georgia, serif; font-size: 19px; line-height: 1.3; }
   .msg .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--text-muted); font-size: 12px; }
@@ -288,6 +295,7 @@
     </div>
     <p class="sub">Every message the universe has sent so far, newest first.</p>
     <ul class="messages" id="messages"></ul>
+    <p class="messages-count" id="messagesCount" hidden></p>
   </section>
 
   <section class="charts">
@@ -505,11 +513,47 @@
       }
       list.appendChild(li);
     });
+    list.scrollTop = 0;
+    sizeMessages();
     }
 
     // Charts and tables depend on the snapshot, not the live ticker.
     // Keep their DOM stable during live updates to avoid mobile scroll jumps.
   }
+
+  // ---- messages list: show the newest MESSAGES_VISIBLE, scroll for the rest ----
+  const MESSAGES_VISIBLE = 4;
+  function sizeMessages() {
+    const list = $("messages");
+    const items = list.querySelectorAll(":scope > li.msg");
+    const count = $("messagesCount");
+    if (items.length <= MESSAGES_VISIBLE) {
+      list.classList.remove("scrolling", "at-end");
+      list.style.removeProperty("--messages-max");
+      list.removeAttribute("tabindex");
+      list.removeAttribute("aria-label");
+      count.hidden = true;
+      return;
+    }
+    // Message cards differ in height, so measure: bottom of the 4th card, plus a peek of the 5th so it's clear there's more.
+    const last = items[MESSAGES_VISIBLE - 1];
+    const height = last.offsetTop + last.offsetHeight + 34;
+    list.style.setProperty("--messages-max", height + "px");
+    list.classList.add("scrolling");
+    list.tabIndex = 0; // lets keyboard users scroll the list
+    list.setAttribute("aria-label", `Messages, ${items.length} in all, newest first. Scroll for more.`);
+    count.textContent = `Showing the newest ${MESSAGES_VISIBLE} of ${items.length}. Scroll the list for more.`;
+    count.hidden = false;
+    updateMessagesEnd();
+  }
+  function updateMessagesEnd() {
+    const list = $("messages");
+    list.classList.toggle("at-end", list.scrollTop + list.clientHeight >= list.scrollHeight - 2);
+  }
+  $("messages").addEventListener("scroll", updateMessagesEnd, { passive: true });
+  let resizeTimer = null;
+  window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(sizeMessages, 150); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeMessages);
 
   // Fill in missing hours between the first hour shown and the current hour (keys are local "YYYY-MM-DDTHH")
   function hourlySeries() {
