@@ -217,6 +217,7 @@
   .nav-options a[aria-current="page"] { color: var(--text-primary); font-weight: 600; }
   @media (max-width: 480px) { .site-nav .nav-caption { font-size: 10px; } .nav-menu summary { min-width: 142px; } }
 </style>
+<link rel="stylesheet" href="/assets/account-menu.css">
 </head>
 <body>
 <div class="wrap">
@@ -242,6 +243,7 @@
         <option value="winter">Winter</option>
         <option value="japanese ecru">Japanese Ecru</option>
       </select>
+      <div id="accountMenu"></div>
     </div>
   </header>
 
@@ -256,7 +258,6 @@
         <a href="/sms/">Text messages</a>
         <a href="/privacy/">Privacy Policy</a>
         <a href="/terms/">Terms &amp; Conditions</a>
-        <a href="https://my.universecourier.com/">Sign in</a>
       </div>
     </details>
   </nav>
@@ -706,5 +707,6 @@
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (data) { renderHourly(); renderDist(); } }, 150); });
 })();
 </script>
+<script src="/assets/account-menu.js" defer></script>
 </body>
 </html>
