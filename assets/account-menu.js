@@ -75,6 +75,9 @@
   }
 
   function render(session) {
+    // Let the page know too (the Courier Hub shows a "Go to your dashboard" button when you're signed in).
+    window.ucSession = session;
+    if (session) document.dispatchEvent(new CustomEvent("uc:session", { detail: session }));
     panel.replaceChildren();
     var signedIn = !!(session && session.signedIn);
     button.classList.toggle("signed-in", signedIn);
