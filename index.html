@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Universe Courier</title>
+<title>Courier Hub · Universe Courier</title>
 <link rel="icon"
       href="/favicon.ico?v=4"
       type="image/x-icon"
@@ -152,6 +152,21 @@
   .legend { display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-muted); font-size: 12px; margin-top: 12px; }
   .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
 
+  .hub-signed { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 20px; padding: 14px 20px; }
+  .hub-signed[hidden] { display: none; }
+  .hub-signed .who { color: var(--text-secondary); font-size: 14px; overflow-wrap: anywhere; }
+  .hub-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #fff; border-radius: 8px; padding: 8px 14px; font: 600 13px Inter, system-ui, sans-serif; text-decoration: none; }
+  .hub-btn:hover { filter: brightness(1.06); }
+  .dispatch { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 24px; align-items: start; }
+  @media (max-width: 720px) { .dispatch { grid-template-columns: 1fr; } }
+  .dispatch-stats { display: grid; gap: 10px; }
+  .dispatch-stats .stat { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .dispatch-stats .stat .v { font-size: 22px; }
+  .cat-bars { display: grid; gap: 10px; }
+  .cat-row { display: grid; grid-template-columns: 110px 1fr 48px; gap: 12px; align-items: center; font-size: 14px; }
+  .cat-track { height: 10px; background: var(--grid); border-radius: 999px; overflow: hidden; }
+  .cat-fill { display: block; height: 100%; width: 0; background: var(--series-1); border-radius: 999px; transition: width .4s ease-out; }
+  .cat-n { text-align: right; color: var(--text-secondary); }
   .messages-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
   .messages-heading h2 { margin-bottom: 0; }
   .export-btn { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); border-radius: 8px; padding: 7px 11px; font: 500 12px Inter, system-ui, sans-serif; cursor: pointer; }
@@ -249,9 +264,9 @@
   <nav class="site-nav" aria-label="Site navigation">
     <span class="nav-caption">Explore / Universe Courier</span>
     <details class="nav-menu">
-      <summary aria-label="Navigate pages">Dashboard</summary>
+      <summary aria-label="Navigate pages">Courier Hub</summary>
       <div class="nav-options">
-        <a href="/" aria-current="page">Dashboard</a>
+        <a href="/" aria-current="page">Courier Hub</a>
         <a href="/howitworks/">How it works</a>
         <a href="/about/">About</a>
         <a href="/sms/">Text messages</a>
@@ -263,6 +278,11 @@
 
   <div id="error" class="card error" hidden></div>
 
+  <div id="hubSignedIn" class="card hub-signed" hidden>
+    <span class="who">Signed in as <strong id="hubEmail"></strong>. Your messages are on your own dashboard.</span>
+    <a class="hub-btn" href="https://my.universecourier.com/dashboard">Go to your dashboard &rarr;</a>
+  </div>
+
   <section class="hero">
     <div class="card latest">
       <span class="label">Latest number</span>
@@ -273,29 +293,33 @@
       <div class="stat"><div class="v mono" id="s24">–</div><div class="k">Numbers in the last 24 hours</div><div class="n" id="s24n"></div></div>
       <div class="stat"><div class="v mono" id="sTotal">–</div><div class="k">Numbers since the start</div><div class="n" id="sTotaln"></div></div>
       <div class="stat"><div class="v mono" id="sMsgs">–</div><div class="k">Messages delivered</div><div class="n" id="sMsgsn"></div></div>
-      <div class="stat"><div class="v mono" id="sSince">–</div><div class="k">Since the last message</div><div class="n" id="sSincen"></div></div>
+      <div class="stat"><div class="v mono" id="sSince">–</div><div class="k">Since a message last went out</div><div class="n" id="sSincen"></div></div>
     </div>
   </section>
 
   <section class="card">
     <h2>The stream</h2>
-    <p class="sub">The most recent numbers, newest first. A 3 followed by a 10, or a 43 followed by a 2, sends a message.</p>
+    <p class="sub">The most recent numbers, newest first. Every member has their own key pairs; when one of them comes up, the three numbers just before it pick that member&rsquo;s message.</p>
     <div class="stream mono" id="stream"></div>
     <div class="legend">
       <span><i style="border:2px solid var(--series-1)"></i>Newest</span>
-      <span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>Key-pair number (3, 10, 43, 2)</span>
-      <span><i style="background:var(--gold-soft);border:1px solid var(--gold);box-shadow:0 0 7px var(--gold-glow)"></i>Confirmed key pair</span>
     </div>
   </section>
 
   <section class="card">
-    <div class="messages-heading">
-      <h2>Messages</h2>
-      <button class="export-btn" id="exportMessages" type="button" disabled aria-label="Export all messages as CSV"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg>Export CSV</button>
+    <h2>Messages dispatched</h2>
+    <p class="sub">Across everyone who receives messages. What each person gets stays private; these are totals only.</p>
+    <div class="dispatch">
+      <div class="dispatch-stats">
+        <div class="stat"><span class="k">Last 24 hours</span><span class="v mono" id="m24">–</span></div>
+        <div class="stat"><span class="k">Last 7 days</span><span class="v mono" id="m7">–</span></div>
+        <div class="stat"><span class="k">Since the start</span><span class="v mono" id="mAll">–</span></div>
+      </div>
+      <div>
+        <div class="cat-bars" id="catBars"></div>
+        <p class="sub" id="catNote" style="margin:10px 0 0"></p>
+      </div>
     </div>
-    <p class="sub">Every message the universe has sent so far, newest first.</p>
-    <ul class="messages" id="messages"></ul>
-    <p class="messages-count" id="messagesCount" hidden></p>
   </section>
 
   <section class="charts">
@@ -317,7 +341,7 @@
     <p>Universe Courier turns radioactive decay into a live stream of random numbers. When a key pair appears, the three preceding numbers select a message delivered by push notification or, for people who sign up, by text message.</p>
     <p>Live numbers update within seconds; historical data is refreshed periodically.</p>
     <p>Universe Courier is operated by Phillip Berger. Contact: <a href="mailto:privacy@universecourier.com" style="color:inherit">privacy@universecourier.com</a></p>
-    <p><a href="/" style="color:inherit">Dashboard</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy Policy</a> · <a href="/terms/" style="color:inherit">Terms &amp; Conditions</a></p>
+    <p><a href="/" style="color:inherit">Courier Hub</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy Policy</a> · <a href="/terms/" style="color:inherit">Terms &amp; Conditions</a></p>
   </footer>
 </div>
 
@@ -331,14 +355,12 @@
   // live stream (?live=off turns it off, ?live=<url> points elsewhere)
   const LIVE_URL = params.get("live") === "off" ? null : (params.get("live") || `${API_BASE}/api/public/latest`);
   const LIVE_EVERY_MS = 5000;
-  const KEY_VALUES = new Set([3, 10, 43, 2]);
   const STALE_MINUTES = 15;
   const SVGNS = "http://www.w3.org/2000/svg";
   let data = null;
   let live = null;            // last good ticker response
   let liveOk = false;
   let shownTopId = 0;         // newest number id currently on screen (for the arrival animation)
-  let renderedDeliveries = null;
 
   // ---- theme selection (persisted across both pages) ----
   const root = document.documentElement;
@@ -388,35 +410,6 @@
     return [...byId.values()].sort((a, b) => b.id - a.id).slice(0, 120);
   }
 
-  // CSV is built from the complete snapshot, not just currently visible cards.
-  // Guard against spreadsheet formula execution when opened in Excel or Sheets.
-  function csvCell(value) {
-    let str = value == null ? "" : String(value);
-    if (/^[\s\u0000-\u001f]*[=+@-]/.test(str)) str = "'" + str;
-    return '"' + str.replace(/"/g, '""') + '"';
-  }
-  function exportMessagesCsv() {
-    const deliveries = data && Array.isArray(data.deliveries) ? data.deliveries : [];
-    if (!deliveries.length) return;
-    const headers = ["Message ID", "Timestamp (ISO)", "Category", "Message", "Seed 1", "Seed 2", "Seed 3", "Key 1", "Key 2", "Delivery status"];
-    const rows = deliveries.map(d => [
-      d.id ?? "", d.sent_at ?? "", d.category ?? "", d.text ?? "",
-      ...(Array.isArray(d.selection) ? [0,1,2].map(i => d.selection[i] ?? "") : ["", "", ""]),
-      ...(Array.isArray(d.timing) ? [0,1].map(i => d.timing[i] ?? "") : ["", ""]),
-      d.status ?? ""
-    ]);
-    const csv = '\uFEFF' + [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\r\n") + "\r\n";
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `universe_courier_messages_${new Date().toISOString().slice(0,10)}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-  $("exportMessages").addEventListener("click", exportMessagesCsv);
 
   // ---- render ----
   function render() {
@@ -450,110 +443,52 @@
     $("s24n").textContent = t.numbers_24h ? `about ${(t.numbers_24h / 1440).toFixed(1)} a minute` : "";
     $("sTotal").textContent = fmtInt((t.numbers || 0) + extra);
     $("sTotaln").textContent = t.first_number_at ? `since ${new Date(t.first_number_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}` : "";
-    $("sMsgs").textContent = fmtInt(t.deliveries_sent);
-    const failed = (t.deliveries || 0) - (t.deliveries_sent || 0);
-    $("sMsgsn").textContent = failed > 0 ? `${failed} didn't get through` : "";
-    $("sSince").textContent = span(t.last_delivery_at, now);
-    $("sSincen").textContent = t.last_delivery_at ? fmtDate(t.last_delivery_at) : "none yet";
+    const sent = (live && live.messages_sent != null && liveOk) ? Math.max(live.messages_sent, t.messages_sent || 0) : (t.messages_sent || 0);
+    const lastAt = (liveOk && live && live.last_message_at) || t.last_message_at;
+    $("sMsgs").textContent = fmtInt(sent);
+    $("sMsgsn").textContent = t.members ? `to ${fmtInt(t.members)} ${t.members === 1 ? "member" : "members"}` : "";
+    $("sSince").textContent = span(lastAt, now);
+    $("sSincen").textContent = lastAt ? fmtDate(lastAt) : "none yet";
 
     // stream
     const stream = $("stream"); stream.replaceChildren();
     const visibleNumbers = numbers.slice(0, 96);
-    const confirmedIds = new Set();
-    // Newest-first display reverses chronological trigger order: 10,3 or 2,43.
-    // Require consecutive IDs so missing records cannot create a false match.
-    for (let i = 0; i < visibleNumbers.length - 1; i++) {
-      const newer = visibleNumbers[i], older = visibleNumbers[i + 1];
-      const matches = (newer.value === 10 && older.value === 3) ||
-                      (newer.value === 2 && older.value === 43);
-      if (matches && Number(newer.id) === Number(older.id) + 1) {
-        confirmedIds.add(newer.id);
-        confirmedIds.add(older.id);
-      }
-    }
     visibleNumbers.forEach((n, i) => {
       const isNew = shownTopId && n.id > shownTopId;
-      const confirmed = confirmedIds.has(n.id);
-      const c = el("span", "chip" + (KEY_VALUES.has(n.value) ? " key" : "") + (confirmed ? " confirmed" : "") + (i === 0 ? " newest" : "") + (isNew ? " arrive" : ""), String(n.value));
-      c.title = (confirmed ? "Confirmed key pair · " : "") + fmtDate(n.at || n.received_at);
+      const c = el("span", "chip" + (i === 0 ? " newest" : "") + (isNew ? " arrive" : ""), String(n.value));
+      c.title = fmtDate(n.at || n.received_at);
       stream.appendChild(c);
     });
     if (top) shownTopId = Math.max(shownTopId, top.id);
 
-    // messages
-    const list = $("messages");
-    const ds = data.deliveries || [];
-    $("exportMessages").disabled = !ds.length;
-    if (ds !== renderedDeliveries) {
-    renderedDeliveries = ds;
-    list.replaceChildren();
-    if (!ds.length) list.appendChild(el("li", "empty", "No messages yet. The universe is thinking."));
-    ds.forEach(d => {
-      const li = el("li", "msg");
-      li.appendChild(el("div", "text", d.text));
-      const meta = el("div", "meta");
-      meta.appendChild(el("span", null, fmtDate(d.sent_at)));
-      if (d.category) meta.appendChild(el("span", "tag", d.category));
-      const hasSequence = Array.isArray(d.selection) && d.selection.length === 3 && Array.isArray(d.timing) && d.timing.length === 2;
-      if (!hasSequence) {
-        if (d.timing && d.timing.length) meta.appendChild(el("span", "mono", `pair ${d.timing.join(" → ")}`));
-        if (d.selection && d.selection.length) meta.appendChild(el("span", "mono", `picked by ${d.selection.join(", ")}`));
-      }
-      if (d.status !== "sent") meta.appendChild(el("span", "tag failed", d.status === "failed" ? "didn't get through" : d.status));
-      li.appendChild(meta);
-      if (hasSequence) {
-        const seq = el("div", "msg-sequence");
-        seq.setAttribute("aria-label", `Message selected by ${d.selection.join(", ")}; triggered by ${d.timing.join(" then ")}`);
-        seq.appendChild(el("span", "seq-label", "SEED"));
-        d.selection.forEach(v => seq.appendChild(el("span", "seq-num", String(v))));
-        seq.appendChild(el("span", "seq-arrow", "→"));
-        seq.appendChild(el("span", "seq-label", "KEY"));
-        d.timing.forEach(v => seq.appendChild(el("span", "seq-num trigger", String(v))));
-        li.appendChild(seq);
-      }
-      list.appendChild(li);
-    });
-    list.scrollTop = 0;
-    sizeMessages();
-    }
+    // messages dispatched (totals across all members)
+    $("m24").textContent = fmtInt(t.messages_24h);
+    $("m7").textContent = fmtInt(t.messages_7d);
+    $("mAll").textContent = fmtInt(sent);
 
     // Charts and tables depend on the snapshot, not the live ticker.
     // Keep their DOM stable during live updates to avoid mobile scroll jumps.
   }
 
-  // ---- messages list: show the newest MESSAGES_VISIBLE, scroll for the rest ----
-  const MESSAGES_VISIBLE = 4;
-  function sizeMessages() {
-    const list = $("messages");
-    const items = list.querySelectorAll(":scope > li.msg");
-    const count = $("messagesCount");
-    if (items.length <= MESSAGES_VISIBLE) {
-      list.classList.remove("scrolling", "at-end");
-      list.style.removeProperty("--messages-max");
-      list.removeAttribute("tabindex");
-      list.removeAttribute("aria-label");
-      count.hidden = true;
-      return;
-    }
-    // Message cards differ in height, so measure: bottom of the 4th card, plus a peek of the 5th so it's clear there's more.
-    const last = items[MESSAGES_VISIBLE - 1];
-    const height = last.offsetTop + last.offsetHeight + 34;
-    list.style.setProperty("--messages-max", height + "px");
-    list.classList.add("scrolling");
-    list.tabIndex = 0; // lets keyboard users scroll the list
-    list.setAttribute("aria-label", `Messages, ${items.length} in all, newest first. Scroll for more.`);
-    count.textContent = `Showing the newest ${MESSAGES_VISIBLE} of ${items.length}. Scroll the list for more.`;
-    count.hidden = false;
-    updateMessagesEnd();
+  // ---- message types across everyone: counts only ----
+  const CATEGORY_LABELS = { IChing: "I Ching" };
+  function renderCategories() {
+    const host = $("catBars");
+    const cats = (data.message_categories || []).filter(c => c.n > 0);
+    host.replaceChildren();
+    if (!cats.length) { host.appendChild(el("p", "empty", "No messages yet. The universe is thinking.")); $("catNote").textContent = ""; return; }
+    const max = Math.max(...cats.map(c => c.n));
+    cats.forEach(c => {
+      const row = el("div", "cat-row");
+      row.appendChild(el("span", "cat-name", CATEGORY_LABELS[c.category] || c.category));
+      const track = el("span", "cat-track"), fill = el("span", "cat-fill");
+      track.appendChild(fill); row.appendChild(track);
+      row.appendChild(el("span", "cat-n mono", fmtInt(c.n)));
+      host.appendChild(row);
+      requestAnimationFrame(() => { fill.style.width = (c.n * 100 / max) + "%"; });
+    });
+    $("catNote").textContent = "Kinds of message sent so far. Each member can choose which kinds they get.";
   }
-  function updateMessagesEnd() {
-    const list = $("messages");
-    list.classList.toggle("at-end", list.scrollTop + list.clientHeight >= list.scrollHeight - 2);
-  }
-  $("messages").addEventListener("scroll", updateMessagesEnd, { passive: true });
-  let resizeTimer = null;
-  window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(sizeMessages, 150); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeMessages);
 
   // Fill in missing hours between the first hour shown and the current hour (keys are local "YYYY-MM-DDTHH")
   function hourlySeries() {
@@ -669,6 +604,7 @@
       data = await r.json();
       $("error").hidden = true;
       render();
+      renderCategories();
       renderHourly();
       renderDist();
     } catch (e) {
@@ -687,14 +623,23 @@
       const j = await r.json();
       if (!Array.isArray(j.numbers)) throw new Error("bad data");
       live = j; liveOk = true;
-      // a message was sent since the snapshot: fetch the snapshot again so it shows up in the list
-      const lastKnown = data && data.deliveries && data.deliveries[0] ? data.deliveries[0].id : 0;
-      if (data && j.last_delivery && j.last_delivery.id > lastKnown) await load();
+      // a message went out since the snapshot: fetch it again so the totals and types catch up
+      const known = data && data.totals ? data.totals.messages_sent || 0 : 0;
+      if (data && j.messages_sent != null && j.messages_sent > known) await load();
       else render();
     } catch (e) {
       if (liveOk) { liveOk = false; render(); }
     }
   }
+
+  // Signed in on my.universecourier.com? (account-menu.js asks the portal and announces the answer.)
+  function showSession(session) {
+    const signedIn = !!(session && session.signedIn);
+    $("hubSignedIn").hidden = !signedIn;
+    if (signedIn) $("hubEmail").textContent = session.email;
+  }
+  document.addEventListener("uc:session", e => showSession(e.detail));
+  if (window.ucSession) showSession(window.ucSession);
 
   load().then(pollLive);
   setInterval(load, 60000);
@@ -706,6 +651,6 @@
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (data) { renderHourly(); renderDist(); } }, 150); });
 })();
 </script>
-<script src="/assets/account-menu.js?v=2" defer></script>
+<script src="/assets/account-menu.js?v=3" defer></script>
 </body>
 </html>
