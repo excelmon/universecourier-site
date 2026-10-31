@@ -185,7 +185,7 @@
   th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--grid); }
   th { color: var(--text-muted); font-weight: 500; position: sticky; top: 0; background: var(--surface-1); }
 
-  footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px; max-width: 70ch; }
+  footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px; }
   footer p { margin: 0 0 8px; }
   .error { border-color: var(--critical); color: var(--critical); }
 
@@ -231,29 +231,31 @@
         <p class="tagline">Messages from the universe, delivered at random.</p>
       </div>
     </div>
-    <select class="theme-select" id="themeSelect" aria-label="Color theme">
-        <option value="paper">Paper</option>
-        <option value="dark">Dark (original)</option>
-        <option value="midnight">Midnight</option>
-        <option value="spring">Spring</option>
-        <option value="summer">Summer</option>
-        <option value="autumn">Autumn</option>
-        <option value="winter">Winter</option>
-        <option value="japanese ecru">Japanese Ecru</option>
-      </select>
+    <div class="header-tools">
+      <select class="theme-select" id="themeSelect" aria-label="Color theme">
+          <option value="paper">Paper</option>
+          <option value="dark">Dark (original)</option>
+          <option value="midnight">Midnight</option>
+          <option value="spring">Spring</option>
+          <option value="summer">Summer</option>
+          <option value="autumn">Autumn</option>
+          <option value="winter">Winter</option>
+          <option value="japanese ecru">Japanese Ecru</option>
+        </select>
+      <div id="accountMenu"></div>
+    </div>
   </header>
   <nav class="site-nav" aria-label="Site navigation">
     <span class="nav-caption">Explore / Universe Courier</span>
     <details class="nav-menu">
       <summary aria-label="Navigate pages">Terms &amp; Conditions</summary>
       <div class="nav-options">
-        <a href="/">Dashboard</a>
+        <a href="/">Courier Hub</a>
         <a href="/howitworks/">How it works</a>
         <a href="/about/">About</a>
         <a href="/sms/">Text messages</a>
         <a href="/privacy/">Privacy Policy</a>
         <a href="/terms/" aria-current="page">Terms &amp; Conditions</a>
-        <a href="https://my.universecourier.com/">Sign in</a>
       </div>
     </details>
   </nav>
@@ -305,7 +307,7 @@
   </main>
   <footer>
     <p>Universe Courier is operated by Phillip Berger. Contact: <a href="mailto:privacy@universecourier.com" style="color:inherit">privacy@universecourier.com</a></p>
-    <p><a href="/" style="color:inherit">Dashboard</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy Policy</a> · <a href="/terms/" style="color:inherit">Terms &amp; Conditions</a></p>
+    <p><a href="/" style="color:inherit">Courier Hub</a> · <a href="/sms/" style="color:inherit">Text messages</a> · <a href="/privacy/" style="color:inherit">Privacy Policy</a> · <a href="/terms/" style="color:inherit">Terms &amp; Conditions</a></p>
   </footer>
 </div>
 <script>
@@ -330,5 +332,6 @@
   });
 })();
 </script>
+<script src="/assets/account-menu.js?v=3" defer></script>
 </body>
 </html>
