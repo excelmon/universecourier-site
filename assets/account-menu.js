@@ -86,7 +86,7 @@
 
     panel.appendChild(el("div", "account-who", signedIn ? session.email : "Not signed in"));
     panel.appendChild(el("hr"));
-    panel.appendChild(link("Account", PORTAL + "/settings"));
+    panel.appendChild(link("Account Settings", PORTAL + "/settings"));
     panel.appendChild(el("hr"));
 
     if (signedIn && session.signOutToken) {
