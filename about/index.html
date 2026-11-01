@@ -290,18 +290,26 @@
   const themeSelect = document.getElementById("themeSelect");
   const themeNames = new Set(["paper", "dark", "midnight", "spring", "summer", "autumn", "winter", "japanese ecru"]);
   let savedTheme = null;
-  try { savedTheme = localStorage.getItem("uc-theme"); } catch (e) {}
+  // Shared with my.universecourier.com through a cookie on the parent domain (localStorage is per site).
+  const sharedTheme = document.cookie.match(/(?:^|;\s*)uc-theme=([^;]*)/);
+  try { savedTheme = sharedTheme ? decodeURIComponent(sharedTheme[1]) : localStorage.getItem("uc-theme"); } catch (e) {}
+  const shareTheme = name => {
+    const domain = /(^|\.)universecourier\.com$/.test(location.hostname) ? "; Domain=universecourier.com; Secure" : "";
+    document.cookie = "uc-theme=" + encodeURIComponent(name) + "; Path=/; Max-Age=31536000; SameSite=Lax" + domain;
+  };
   // Migrate the old light/dark toggle setting; retain system preference for first-time visitors.
   const initialTheme = savedTheme === "light" ? "paper" :
     themeNames.has(savedTheme) ? savedTheme :
     (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "paper");
   root.dataset.theme = initialTheme;
+  shareTheme(initialTheme); // carry this choice to the account pages
   themeSelect.value = initialTheme;
   themeSelect.addEventListener("change", () => {
     const selected = themeSelect.value;
     if (!themeNames.has(selected)) return;
     root.dataset.theme = selected;
     try { localStorage.setItem("uc-theme", selected); } catch (e) {}
+    shareTheme(selected);
   });
 })();
 </script>
