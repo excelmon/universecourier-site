@@ -1,5 +1,6 @@
 // Account menu for universecourier.com: a person icon (top right) that opens a small menu.
-// Signed in on my.universecourier.com: shows the email, Account and Log out. Otherwise: Account and Sign in.
+// Signed in on my.universecourier.com: shows "Hi {name}" beside the icon, and the email, Account and Log out in the menu.
+// Otherwise: Account and Sign in.
 // The page asks the portal who is signed in (GET /api/session). The site and the portal share universecourier.com,
 // so the browser includes the portal's sign-in cookie; the portal only lets universecourier.com read the answer.
 (function () {
@@ -15,7 +16,10 @@
     style.id = "accountMenuStyles";
     style.textContent =
       ".header-tools { display: flex; align-items: center; gap: 8px; }\n" +
-      ".account-menu { position: relative; }\n" +
+      ".account-menu { position: relative; display: flex; align-items: center; gap: 8px; }\n" +
+      ".account-hi { color: var(--text-secondary); font: 13px Inter, system-ui, sans-serif; white-space: nowrap;\n" +
+      "  overflow: hidden; text-overflow: ellipsis; max-width: min(160px, 40vw); }\n" +
+      ".account-hi[hidden] { display: none; }\n" +
       ".account-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 32px; padding: 0;\n" +
       "  border: 1px solid var(--border); border-radius: 8px; background: var(--surface-1); color: var(--text-secondary); cursor: pointer; }\n" +
       ".account-btn:hover, .account-btn[aria-expanded=\"true\"] { color: var(--text-primary); border-color: var(--text-muted); }\n" +
@@ -58,6 +62,12 @@
   panel.setAttribute("role", "menu");
   panel.hidden = true;
 
+  // "Hi {name}" beside the icon while signed in: an extra sign that you're logged in.
+  var hi = document.createElement("span");
+  hi.className = "account-hi";
+  hi.hidden = true;
+
+  host.appendChild(hi);
   host.appendChild(button);
   host.appendChild(panel);
 
@@ -83,6 +93,10 @@
     button.classList.toggle("signed-in", signedIn);
     button.setAttribute("aria-label", signedIn ? "Account: signed in as " + session.email : "Account: not signed in");
     button.title = signedIn ? session.email : "Account";
+    var name = signedIn && session.name ? String(session.name).trim() : "";
+    hi.textContent = name ? "Hi " + name : "";
+    hi.title = name ? "Signed in as " + session.email : "";
+    hi.hidden = !name;
 
     panel.appendChild(el("div", "account-who", signedIn ? session.email : "Not signed in"));
     panel.appendChild(el("hr"));
