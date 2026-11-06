@@ -17,7 +17,8 @@
     style.textContent =
       ".header-tools { display: flex; align-items: center; gap: 8px; }\n" +
       ".account-menu { position: relative; }\n" +
-      ".account-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 0; }\n" +
+      // margin-left: auto keeps it on the right even when the header wraps onto a second line (phones).
+      ".account-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 0; margin-left: auto; }\n" +
       ".account-hi { color: var(--text-secondary); font: 13px Inter, system-ui, sans-serif; white-space: nowrap;\n" +
       "  overflow: hidden; text-overflow: ellipsis; max-width: min(160px, 40vw); }\n" +
       ".account-hi[hidden] { display: none; }\n" +
