@@ -1,5 +1,5 @@
 // Account menu for universecourier.com: a person icon (top right) that opens a small menu.
-// Signed in on my.universecourier.com: shows "Hi {name}" beside the icon, and the email, Account and Log out in the menu.
+// Signed in on my.universecourier.com: shows "Hi {name}" on its own line above the theme picker and icon, and the email, Account and Log out in the menu.
 // Otherwise: Account and Sign in.
 // The page asks the portal who is signed in (GET /api/session). The site and the portal share universecourier.com,
 // so the browser includes the portal's sign-in cookie; the portal only lets universecourier.com read the answer.
@@ -16,7 +16,8 @@
     style.id = "accountMenuStyles";
     style.textContent =
       ".header-tools { display: flex; align-items: center; gap: 8px; }\n" +
-      ".account-menu { position: relative; display: flex; align-items: center; gap: 8px; }\n" +
+      ".account-menu { position: relative; }\n" +
+      ".account-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 0; }\n" +
       ".account-hi { color: var(--text-secondary); font: 13px Inter, system-ui, sans-serif; white-space: nowrap;\n" +
       "  overflow: hidden; text-overflow: ellipsis; max-width: min(160px, 40vw); }\n" +
       ".account-hi[hidden] { display: none; }\n" +
@@ -62,12 +63,22 @@
   panel.setAttribute("role", "menu");
   panel.hidden = true;
 
-  // "Hi {name}" beside the icon while signed in: an extra sign that you're logged in.
+  // "Hi {name}" while signed in: an extra sign that you're logged in. It goes on its own line above the
+  // header's tools (theme picker + icon), right-aligned, so it doesn't crowd that row on phones.
   var hi = document.createElement("span");
   hi.className = "account-hi";
   hi.hidden = true;
+  var tools = host.parentElement;
+  if (tools && tools.parentNode) {
+    var stack = document.createElement("div");
+    stack.className = "account-stack";
+    tools.parentNode.insertBefore(stack, tools);
+    stack.appendChild(hi);
+    stack.appendChild(tools);
+  } else {
+    host.appendChild(hi);
+  }
 
-  host.appendChild(hi);
   host.appendChild(button);
   host.appendChild(panel);
 
