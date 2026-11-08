@@ -233,6 +233,25 @@
   .nav-options a:hover, .nav-options a:focus-visible { background: var(--accent-soft); color: var(--text-primary); }
   .nav-options a[aria-current="page"] { color: var(--text-primary); font-weight: 600; }
   @media (max-width: 480px) { .site-nav .nav-caption { font-size: 10px; } .nav-menu summary { min-width: 142px; } }
+
+  /* Intro: the pitch, then what the Courier Hub is (2026-11-08) */
+  .intro { display: grid; grid-template-columns: 3fr 2fr; gap: 0; padding: 0; overflow: hidden; }
+  .intro > div { padding: 24px 26px; }
+  .intro-hub { border-left: 1px solid var(--border); }
+  .intro h2 { font-size: clamp(22px, 3.2vw, 28px); line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.005em; }
+  .intro p { margin: 0 0 12px; color: var(--text-secondary); }
+  .intro .pitch-tag { font-family: Fraunces, Georgia, serif; font-style: italic; font-size: 18px; color: var(--text-primary); margin: 16px 0 14px; }
+  .intro .intro-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; margin: 0; font-size: 13px; color: var(--text-muted); }
+  .intro .intro-foot a { color: var(--accent); font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .intro .intro-foot a:hover { text-decoration: underline; }
+  .intro .label { display: block; color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+  .intro-hub p { font-size: 14px; }
+  .intro-hub p:last-child { margin-bottom: 0; }
+  @media (max-width: 760px) {
+    .intro { grid-template-columns: 1fr; }
+    .intro > div { padding: 20px; }
+    .intro-hub { border-left: 0; border-top: 1px solid var(--border); }
+  }
 </style>
 </head>
 <body>
@@ -285,6 +304,20 @@
     <span class="who">Signed in as <strong id="hubEmail"></strong>. Your messages are on your own dashboard.</span>
     <a class="hub-btn" href="https://my.universecourier.com/dashboard">Go to your dashboard &rarr;</a>
   </div>
+
+  <section class="card intro" aria-labelledby="introTitle">
+    <div class="intro-pitch">
+      <h2 id="introTitle">Ever had a coincidence that felt like it meant something?</h2>
+      <p>That&rsquo;s synchronicity. Universe Courier sends members short messages at unpredictable times, about one every day or two. Most will simply be messages. But every so often, one arrives at exactly the right moment and speaks to what&rsquo;s happening in your life. That&rsquo;s the moment we&rsquo;re here for.</p>
+      <p class="pitch-tag">Messages from the universe, delivered at random.</p>
+      <p class="intro-foot"><span>Membership is by invitation for now.</span><a href="/howitworks/">How it works &rarr;</a></p>
+    </div>
+    <div class="intro-hub">
+      <span class="label">You&rsquo;re on the Courier Hub</span>
+      <p>Every message is chosen and timed by a hardware random number generator, so no one, not even us, decides what you get or when.</p>
+      <p>Here you can watch its numbers arrive live, along with totals for every message sent. What each member receives stays private.</p>
+    </div>
+  </section>
 
   <section class="hero">
     <div class="card latest">
