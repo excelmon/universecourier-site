@@ -216,6 +216,8 @@
   .example-seq .key { border-color: var(--accent); background: var(--accent-soft); }
   .example-seq .confirmed { border-color: var(--gold); background: var(--gold-soft); color: var(--text-primary); font-weight: 600; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 35%, transparent), 0 0 12px var(--gold-glow); }
   .explain a { color: var(--series-1); }
+  .explain a.more-link { color: var(--accent); font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .explain a.more-link:hover { text-decoration: underline; }
   .example-note { font-size: 12px; color: var(--text-muted); }
 </style>
 </head>
@@ -277,7 +279,7 @@
     <section class="card">
       <h2>What to make of a message</h2>
       <p>Most messages will just be messages. Every so often, one will land on a day when it means something, and you'll notice. Nothing here predicts the future or claims a hidden hand behind it. Universe Courier simply leaves the door open. What comes through is up to you.</p>
-      <p><a href="/about/">Why I built this &rarr;</a></p>
+      <p><a class="more-link" href="/about/">Why I built this &rarr;</a></p>
     </section>
   </main>
   <footer>
