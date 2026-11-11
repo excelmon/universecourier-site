@@ -12,81 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/themes.css?v=2">
 <style>
-  /* THEME PALETTES: edit these variables to experiment with new colors. */
-  :root, :root[data-theme="paper"] {
-    color-scheme: light;
-    --bg: #f6f5f1; --surface-1: #fcfcfb; --border: #e2e0d8;
-    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7975;
-    --grid: #ebe9e2; --series-1: #2a78d6;
-    --accent: #eb6834; --accent-soft: #fbe3d8;
-    --gold: #b88a26; --gold-soft: #f8ebc5; --gold-glow: rgba(202,153,47,.35);
-    --critical: #c62f2e; --ok: #1f8a4c; --star: rgba(11,11,11,.06);
-  }
-  /* Original Dark palette, preserved from your existing dashboard. */
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --bg: #0e0f14; --surface-1: #17181f; --border: #2a2b34;
-    --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e87;
-    --grid: #24252d; --series-1: #3987e5;
-    --accent: #e8743f; --accent-soft: #3a2318;
-    --gold: #d8a52f; --gold-soft: #40341d; --gold-glow: rgba(232,184,77,.42);
-    --critical: #e66767; --ok: #3fb871; --star: rgba(240,239,236,.10);
-  }
-  :root[data-theme="midnight"] {
-    color-scheme: dark;
-    --bg: #111622; --surface-1: #1b2231; --border: #343d50;
-    --text-primary: #f2f4fa; --text-secondary: #c4ccda; --text-muted: #94a1b6;
-    --grid: #2a3346; --series-1: #79a9f1;
-    --accent: #f38c69; --accent-soft: #452c2b;
-    --gold: #e6b75a; --gold-soft: #493b28; --gold-glow: rgba(230,183,90,.43);
-    --critical: #f07777; --ok: #55c999; --star: rgba(210,225,255,.08);
-  }
-  :root[data-theme="spring"] {
-    color-scheme: light;
-    --bg: #b7e4a1; --surface-1: #c9dfc4; --border: #04351e;
-    --text-primary: #22382b; --text-secondary: #526b59; --text-muted: #3b473c;
-    --grid: #e4eee2; --series-1: #438d80;
-    --accent: #be515e; --accent-soft: #dbb4c8;
-    --gold: #b78b30; --gold-soft: #f6eccd; --gold-glow: rgba(190,151,59,.32);
-    --critical: #b7474a; --ok: #145733; --star: rgba(50,90,55,.055);
-  }
-  :root[data-theme="summer"] {
-    color-scheme: light;
-    --bg: #b0d9fa; --surface-1: #e5eff7; --border: #af5842;
-    --text-primary: #3b5f51; --text-secondary: #446357; --text-muted: #495e56;
-    --grid: #efe5d4; --series-1: #1972aa;
-    --accent: #ee413b; --accent-soft: #ffbebe;
-    --gold: #ba8d25; --gold-soft: #faedc5; --gold-glow: rgba(202,153,47,.36);
-    --critical: #c64c44; --ok: #358459; --star: rgba(105,75,30,.055);
-  }
-  :root[data-theme="autumn"] {
-    color-scheme: light;
-    --bg: #d47629bb; --surface-1: #d1b9a5bb; --border: #d45929;
-    --text-primary: #392b26; --text-secondary: #561c64; --text-muted: #5c402f;
-    --grid: #eee1d1; --series-1: #561c64;
-    --accent: #5c150b; --accent-soft: #fd8037;
-    --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
-    --critical: #5c150b; --ok: #85f778; --star: rgba(95,55,30,.055);
-  }
-  :root[data-theme="winter"] {
-    color-scheme: dark;
-    --bg: #111e2a; --surface-1: #1b2b39; --border: #354a5c;
-    --text-primary: #e9f2f6; --text-secondary: #c2d2df; --text-muted: #9cb1c1;
-    --grid: #293d4c; --series-1: #75b7dc;
-    --accent: #e09aa3; --accent-soft: #49313f;
-    --gold: #dfbd77; --gold-soft: #463c2d; --gold-glow: rgba(223,189,119,.42);
-    --critical: #ed8484; --ok: #66c7ad; --star: rgba(215,235,255,.09);
-  }
-  :root[data-theme="japanese ecru"] {
-    color-scheme: light;
-    --bg: #C2B280; --surface-1: #f3dea0; --border: #6d524d;
-    --text-primary: #104773; --text-secondary: #833121; --text-muted: #806c60;
-    --grid: #833121; --series-1: #104773; /* graph color */
-    --accent: #0e3c61; --accent-soft: #a2b1c0;
-    --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
-    --critical: #b94b3d; --ok: #134e0e; --star: rgba(95,55,30,.055);
-  }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -242,7 +169,9 @@
           <option value="summer">Summer</option>
           <option value="autumn">Autumn</option>
           <option value="winter">Winter</option>
-          <option value="japanese ecru">Japanese Ecru</option>
+          <option value="kinari">Kinari</option>
+          <option value="witchy woods">Witchy Woods</option>
+          <option value="frutiger aero">Frutiger Aero</option>
         </select>
       <div id="accountMenu"></div>
     </div>
@@ -326,7 +255,7 @@
   // ---- theme selection (persisted across both pages) ----
   const root = document.documentElement;
   const themeSelect = document.getElementById("themeSelect");
-  const themeNames = new Set(["paper", "dark", "midnight", "spring", "summer", "autumn", "winter", "japanese ecru"]);
+  const themeNames = new Set(["paper", "dark", "midnight", "spring", "summer", "autumn", "winter", "kinari", "witchy woods", "frutiger aero"]);
   let savedTheme = null;
   // Shared with my.universecourier.com through a cookie on the parent domain (localStorage is per site).
   const sharedTheme = document.cookie.match(/(?:^|;\s*)uc-theme=([^;]*)/);
@@ -336,6 +265,7 @@
     document.cookie = "uc-theme=" + encodeURIComponent(name) + "; Path=/; Max-Age=31536000; SameSite=Lax" + domain;
   };
   // Migrate the old light/dark toggle setting; retain system preference for first-time visitors.
+  if (savedTheme === "japanese ecru") savedTheme = "kinari"; // renamed 2026-11-10
   const initialTheme = savedTheme === "light" ? "paper" :
     themeNames.has(savedTheme) ? savedTheme :
     (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "paper");
