@@ -1,0 +1,142 @@
+/* Universe Courier THEME PALETTES: the one place theme colors live.
+   Used by every page in website/site (via /assets/themes.css).
+   The account portal has an identical copy at cloud/UniverseCourier.Web/wwwroot/css/themes.css:
+   after editing this file, copy it there too.
+   To try new colors, use website/theme-lab.html and paste its "Copy CSS" output here.
+   Kinari (生成り) was "japanese ecru" until 2026-11-10; saved choices migrate in the theme scripts. */
+
+:root, :root[data-theme="paper"] {
+  color-scheme: light;
+  --bg: #f6f5f1; --surface-1: #fcfcfb; --border: #e2e0d8;
+  --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7975;
+  --grid: #ebe9e2; --series-1: #2a78d6;
+  --accent: #eb6834; --accent-soft: #fbe3d8; --on-accent: #14110f;
+  --gold: #b88a26; --gold-soft: #f8ebc5; --gold-glow: rgba(202,153,47,.35);
+  --critical: #c62f2e; --ok: #1f8a4c; --star: rgba(11,11,11,.06);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e0f14; --surface-1: #17181f; --border: #2a2b34;
+  --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e87;
+  --grid: #24252d; --series-1: #3987e5;
+  --accent: #e8743f; --accent-soft: #3a2318; --on-accent: #14110f;
+  --gold: #d8a52f; --gold-soft: #40341d; --gold-glow: rgba(232,184,77,.42);
+  --critical: #e66767; --ok: #3fb871; --star: rgba(240,239,236,.10);
+}
+:root[data-theme="midnight"] {
+  color-scheme: dark;
+  --bg: #111622; --surface-1: #1b2231; --border: #343d50;
+  --text-primary: #f2f4fa; --text-secondary: #c4ccda; --text-muted: #94a1b6;
+  --grid: #2a3346; --series-1: #79a9f1;
+  --accent: #f38c69; --accent-soft: #452c2b; --on-accent: #14110f;
+  --gold: #e6b75a; --gold-soft: #493b28; --gold-glow: rgba(230,183,90,.43);
+  --critical: #f07777; --ok: #55c999; --star: rgba(210,225,255,.08);
+}
+:root[data-theme="spring"] {
+  color-scheme: light;
+  --bg: #b7e4a1; --surface-1: #c9dfc4; --border: #04351e;
+  --text-primary: #22382b; --text-secondary: #526b59; --text-muted: #3b473c;
+  --grid: #e4eee2; --series-1: #438d80;
+  --accent: #be515e; --accent-soft: #dbb4c8; --on-accent: #ffffff;
+  --gold: #b78b30; --gold-soft: #f6eccd; --gold-glow: rgba(190,151,59,.32);
+  --critical: #b7474a; --ok: #145733; --star: rgba(50,90,55,.055);
+}
+:root[data-theme="summer"] {
+  color-scheme: light;
+  --bg: #b0d9fa; --surface-1: #e5eff7; --border: #af5842;
+  --text-primary: #3b5f51; --text-secondary: #446357; --text-muted: #495e56;
+  --grid: #efe5d4; --series-1: #1972aa;
+  --accent: #ee413b; --accent-soft: #ffbebe; --on-accent: #14110f;
+  --gold: #ba8d25; --gold-soft: #faedc5; --gold-glow: rgba(202,153,47,.36);
+  --critical: #c64c44; --ok: #358459; --star: rgba(105,75,30,.055);
+}
+:root[data-theme="autumn"] {
+  color-scheme: light;
+  --bg: #d47629bb; --surface-1: #d1b9a5bb; --border: #d45929;
+  --text-primary: #392b26; --text-secondary: #561c64; --text-muted: #5c402f;
+  --grid: #eee1d1; --series-1: #561c64;
+  --accent: #5c150b; --accent-soft: #fd8037; --on-accent: #ffffff;
+  --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
+  --critical: #5c150b; --ok: #85f778; --star: rgba(95,55,30,.055);
+}
+:root[data-theme="winter"] {
+  color-scheme: dark;
+  --bg: #111e2a; --surface-1: #1b2b39; --border: #354a5c;
+  --text-primary: #e9f2f6; --text-secondary: #c2d2df; --text-muted: #9cb1c1;
+  --grid: #293d4c; --series-1: #75b7dc;
+  --accent: #e09aa3; --accent-soft: #49313f; --on-accent: #14110f;
+  --gold: #dfbd77; --gold-soft: #463c2d; --gold-glow: rgba(223,189,119,.42);
+  --critical: #ed8484; --ok: #66c7ad; --star: rgba(215,235,255,.09);
+}
+:root[data-theme="kinari"] {
+  color-scheme: light;
+  --bg: #C2B280; --surface-1: #f3dea0; --border: #6d524d;
+  --text-primary: #104773; --text-secondary: #833121; --text-muted: #806c60;
+  --grid: #a2b1c0; --series-1: #104773; /* graph color */
+  --accent: #0e3c61; --accent-soft: #a2b1c0; --on-accent: #ffffff;
+  --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
+  --critical: #b94b3d; --ok: #134e0e; --star: rgba(95,55,30,.055);
+}
+
+/* Witchy Woods: colors from the mushroom tumbler (added 2026-11-10). */
+:root[data-theme="witchy woods"] {
+  color-scheme: dark;
+  --bg: #110e10; --surface-1: #1c1619; --border: #3a4a46;
+  --text-primary: #e4ebdc; --text-secondary: #c9bfdf; --text-muted: #8eaa96;
+  --grid: #2a2328; --series-1: #8eaa96;
+  --accent: #ED6A40; --accent-soft: #4a1d27; --on-accent: #14110f;
+  --gold: #a39941; --gold-soft: #2e2b14; --gold-glow: rgba(163,153,65,.42);
+  --critical: #dc6378; --ok: #c5e3b8; --star: rgba(201,191,223,.16);
+}
+
+/* Frutiger Aero: original Xbox greens on deep blues (added 2026-11-10). */
+:root[data-theme="frutiger aero"] {
+  color-scheme: dark;
+  --bg: #040b24; --surface-1: #0a1a3f; --border: #1d4a8f;
+  --text-primary: #e8f5ff; --text-secondary: #a6d8ff; --text-muted: #7d9fd0;
+  --grid: #13285a; --series-1: #3fc8ff;
+  --accent: #8ce63a; --accent-soft: #163f1f; --on-accent: #04130a;
+  --gold: #b8ff3c; --gold-soft: #24400f; --gold-glow: rgba(184,255,60,.45);
+  --critical: #ff6b86; --ok: #5dffa0; --star: rgba(150,210,255,.22);
+}
+/* Glass effect for frutiger aero only */
+:root[data-theme="frutiger aero"] body {
+  background:
+    radial-gradient(1px 1px at 12% 18%, var(--star) 99%, transparent),
+    radial-gradient(1px 1px at 72% 9%, var(--star) 99%, transparent),
+    radial-gradient(1.5px 1.5px at 88% 34%, var(--star) 99%, transparent),
+    radial-gradient(1px 1px at 33% 41%, var(--star) 99%, transparent),
+    radial-gradient(60% 45% at 12% 0%, color-mix(in srgb, var(--series-1) 24%, transparent), transparent 70%),
+    radial-gradient(45% 35% at 92% 28%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+    radial-gradient(80% 50% at 50% 105%, color-mix(in srgb, var(--series-1) 18%, transparent), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+}
+:root[data-theme="frutiger aero"] .card {
+  background:
+    radial-gradient(130% 55% at 50% -12%, rgba(255,255,255,.13), transparent 62%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface-1) 62%, transparent), color-mix(in srgb, var(--surface-1) 88%, transparent));
+  border-color: color-mix(in srgb, var(--series-1) 38%, var(--border));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.25),
+              0 10px 30px rgba(0,0,0,.35), 0 0 26px color-mix(in srgb, var(--series-1) 12%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(150%); backdrop-filter: blur(12px) saturate(150%);
+}
+:root[data-theme="frutiger aero"] .stat, :root[data-theme="frutiger aero"] .msg {
+  background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 55%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.09);
+}
+:root[data-theme="frutiger aero"] .hub-btn, :root[data-theme="frutiger aero"] .btn:not(.secondary):not(.danger) {
+  background: linear-gradient(180deg, color-mix(in srgb, #fff 48%, var(--accent)) 0%, var(--accent) 52%, color-mix(in srgb, #000 14%, var(--accent)) 100%);
+  border: 1px solid color-mix(in srgb, #000 22%, var(--accent));
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+:root[data-theme="frutiger aero"] .export-btn, :root[data-theme="frutiger aero"] .theme-select, :root[data-theme="frutiger aero"] .btn.secondary {
+  background-image: linear-gradient(180deg, rgba(255,255,255,.12), transparent 60%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+}
+:root[data-theme="frutiger aero"] .chip.key, :root[data-theme="frutiger aero"] .chip.confirmed, :root[data-theme="frutiger aero"] .seq-num.trigger {
+  background-image: linear-gradient(180deg, rgba(255,255,255,.2), transparent 55%);
+}
+:root[data-theme="frutiger aero"] .cat-fill { background-image: linear-gradient(180deg, rgba(255,255,255,.45), transparent 60%); box-shadow: 0 0 8px color-mix(in srgb, var(--series-1) 55%, transparent); }
+:root[data-theme="frutiger aero"] .cat-track { box-shadow: inset 0 1px 2px rgba(0,0,0,.4); }
