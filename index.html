@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/themes.css?v=2">
+<link rel="stylesheet" href="/assets/themes.css?v=3">
 <style>
 
   * { box-sizing: border-box; }
@@ -200,12 +200,13 @@
         <option value="dark">Dark (original)</option>
         <option value="midnight">Midnight</option>
         <option value="spring">Spring</option>
-        <option value="summer">Summer</option>
+        <option value="summer">Summer Sunset</option>
         <option value="autumn">Autumn</option>
         <option value="winter">Winter</option>
         <option value="kinari">Kinari</option>
         <option value="witchy woods">Witchy Woods</option>
         <option value="frutiger aero">Frutiger Aero</option>
+        <option value="halloween haze">Halloween Haze</option>
       </select>
       <div id="accountMenu"></div>
     </div>
@@ -330,7 +331,7 @@
   // ---- theme selection (persisted across both pages) ----
   const root = document.documentElement;
   const themeSelect = document.getElementById("themeSelect");
-  const themeNames = new Set(["paper", "dark", "midnight", "spring", "summer", "autumn", "winter", "kinari", "witchy woods", "frutiger aero"]);
+  const themeNames = new Set(["paper", "dark", "midnight", "spring", "summer", "autumn", "winter", "kinari", "witchy woods", "frutiger aero", "halloween haze"]);
   let savedTheme = null;
   // Shared with my.universecourier.com through a cookie on the parent domain (localStorage is per site).
   const sharedTheme = document.cookie.match(/(?:^|;\s*)uc-theme=([^;]*)/);
