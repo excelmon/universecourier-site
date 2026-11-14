@@ -5,6 +5,10 @@
    To try new colors, use website/theme-lab.html and paste its "Copy CSS" output here.
    Kinari (生成り) was "japanese ecru" until 2026-11-10; saved choices migrate in the theme scripts. */
 
+/* --edge: the one solid color the browser shows beyond the page (iPhone status-bar area, overscroll).
+   Themes with a background effect set it to match the top of their glow; others use --bg. */
+html { background-color: var(--edge, var(--bg)); }
+
 :root, :root[data-theme="paper"] {
   color-scheme: light;
   --bg: #f6f5f1; --surface-1: #fcfcfb; --border: #e2e0d8;
@@ -52,13 +56,16 @@
   --gold: #d18a12; --gold-soft: #fdeecb; --gold-glow: rgba(240,165,40,.40);
   --critical: #c2334d; --ok: #23785c; --star: rgba(214,90,120,.10);
 }
-/* Sunset sky background for summer only */
-:root[data-theme="summer"] body {
+/* Sunset sky background for summer only. Drawn on a screen-sized layer pinned behind the page,
+   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
+:root[data-theme="summer"] { --edge: #a9c6ea; }
+:root[data-theme="summer"] body { background: transparent; }
+:root[data-theme="summer"] body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(45% 28% at 50% 100%, rgba(255,168,92,.45), transparent 72%),
-    radial-gradient(30% 22% at 85% 8%, rgba(255,255,255,.35), transparent 70%),
+    radial-gradient(70vmax 38vmax at 50% 100%, rgba(255,168,92,.45), transparent 72%),
+    radial-gradient(38vmax 26vmax at 85% 6%, rgba(255,255,255,.35), transparent 70%),
     linear-gradient(180deg, #a9c6ea 0%, #c9bce6 24%, #f2c3cf 46%, #fbd3b0 68%, #fdf1e7 100%);
-  background-attachment: fixed;
 }
 /* Autumn: fall foliage / Thanksgiving, maple orange, crimson, harvest gold, bark brown (2026-11-14). */
 :root[data-theme="autumn"] {
@@ -70,16 +77,19 @@
   --gold: #c9971c; --gold-soft: #f8ebc4; --gold-glow: rgba(214,160,30,.42);
   --critical: #a3201b; --ok: #4f6b16; --star: rgba(140,70,20,.08);
 }
-/* Fall foliage background for autumn only */
-:root[data-theme="autumn"] body {
+/* Fall foliage background for autumn only. Drawn on a screen-sized layer pinned behind the page,
+   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
+:root[data-theme="autumn"] { --edge: #f6e2c6; }
+:root[data-theme="autumn"] body { background: transparent; }
+:root[data-theme="autumn"] body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(42% 30% at 4% 0%, rgba(200,60,25,.38), rgba(200,60,25,.12) 45%, transparent 75%),
-    radial-gradient(40% 28% at 96% 4%, rgba(230,150,25,.42), rgba(230,150,25,.14) 45%, transparent 75%),
-    radial-gradient(50% 32% at 50% 104%, rgba(165,50,25,.30), transparent 72%),
-    radial-gradient(35% 26% at 2% 100%, rgba(120,70,30,.28), transparent 72%),
-    radial-gradient(35% 26% at 98% 100%, rgba(225,120,30,.32), transparent 72%),
+    radial-gradient(48vmax 32vmax at 0% 0%, rgba(200,60,25,.38), rgba(200,60,25,.12) 45%, transparent 75%),
+    radial-gradient(46vmax 30vmax at 100% 2%, rgba(230,150,25,.42), rgba(230,150,25,.14) 45%, transparent 75%),
+    radial-gradient(60vmax 32vmax at 50% 104%, rgba(165,50,25,.30), transparent 72%),
+    radial-gradient(40vmax 28vmax at 0% 100%, rgba(120,70,30,.28), transparent 72%),
+    radial-gradient(40vmax 28vmax at 100% 100%, rgba(225,120,30,.32), transparent 72%),
     linear-gradient(180deg, #f6e2c6 0%, #f8eee2 45%, #f5e1cb 100%);
-  background-attachment: fixed;
 }
 :root[data-theme="winter"] {
   color-scheme: dark;
@@ -122,18 +132,21 @@
   --gold: #b8ff3c; --gold-soft: #24400f; --gold-glow: rgba(184,255,60,.45);
   --critical: #ff6b86; --ok: #5dffa0; --star: rgba(150,210,255,.22);
 }
-/* Glass effect for frutiger aero only */
-:root[data-theme="frutiger aero"] body {
+/* Glass effect background for frutiger aero only. Drawn on a screen-sized layer pinned behind the page,
+   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
+:root[data-theme="frutiger aero"] { --edge: #071636; }
+:root[data-theme="frutiger aero"] body { background: transparent; }
+:root[data-theme="frutiger aero"] body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
     radial-gradient(1px 1px at 12% 18%, var(--star) 99%, transparent),
     radial-gradient(1px 1px at 72% 9%, var(--star) 99%, transparent),
     radial-gradient(1.5px 1.5px at 88% 34%, var(--star) 99%, transparent),
     radial-gradient(1px 1px at 33% 41%, var(--star) 99%, transparent),
-    radial-gradient(60% 45% at 12% 0%, color-mix(in srgb, var(--series-1) 24%, transparent), transparent 70%),
-    radial-gradient(45% 35% at 92% 28%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
-    radial-gradient(80% 50% at 50% 105%, color-mix(in srgb, var(--series-1) 18%, transparent), transparent 70%),
+    radial-gradient(64vmax 44vmax at 12% 0%, color-mix(in srgb, var(--series-1) 24%, transparent), transparent 70%),
+    radial-gradient(48vmax 34vmax at 92% 28%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+    radial-gradient(84vmax 46vmax at 50% 105%, color-mix(in srgb, var(--series-1) 18%, transparent), transparent 70%),
     var(--bg);
-  background-attachment: fixed;
 }
 :root[data-theme="frutiger aero"] .card {
   background:
@@ -174,13 +187,16 @@
   --gold: #5fbf1a; --gold-soft: #e4f7d2; --gold-glow: rgba(110,220,40,.55);
   --critical: #9b111e; --ok: #2f7a12; --star: rgba(107,63,160,.10);
 }
-/* Halloween glow background for halloween haze only */
-:root[data-theme="halloween haze"] body {
+/* Halloween glow background for halloween haze only. Drawn on a screen-sized layer pinned behind the page,
+   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
+:root[data-theme="halloween haze"] { --edge: #dccaf1; }
+:root[data-theme="halloween haze"] body { background: transparent; }
+:root[data-theme="halloween haze"] body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(16% 13% at 86% 7%, rgba(255,247,205,1), rgba(255,214,120,.75) 40%, rgba(255,190,80,.25) 65%, transparent 80%),
-    radial-gradient(38% 30% at 6% 0%, rgba(150,80,230,.30), transparent 70%),
-    radial-gradient(48% 34% at 6% 100%, rgba(100,235,20,.45), rgba(100,235,20,.15) 45%, transparent 75%),
-    radial-gradient(48% 34% at 94% 100%, rgba(255,115,0,.45), rgba(255,115,0,.15) 45%, transparent 75%),
-    linear-gradient(180deg, #e3d1f5 0%, #f2e6f0 38%, #f8efe2 60%, #fcdfbf 100%);
-  background-attachment: fixed;
+    radial-gradient(48vmax 34vmax at 0% 0%, rgba(150,80,230,.32), transparent 70%),
+    radial-gradient(52vmax 36vmax at 100% 0%, rgba(90,30,160,.34), rgba(90,30,160,.10) 50%, transparent 75%),
+    radial-gradient(52vmax 36vmax at 0% 100%, rgba(100,235,20,.45), rgba(100,235,20,.15) 45%, transparent 75%),
+    radial-gradient(52vmax 36vmax at 100% 100%, rgba(255,115,0,.45), rgba(255,115,0,.15) 45%, transparent 75%),
+    linear-gradient(180deg, #dccaf1 0%, #f2e6f0 38%, #f8efe2 60%, #fcdfbf 100%);
 }
