@@ -32,32 +32,54 @@
   --gold: #e6b75a; --gold-soft: #493b28; --gold-glow: rgba(230,183,90,.43);
   --critical: #f07777; --ok: #55c999; --star: rgba(210,225,255,.08);
 }
+/* Spring: updated 2026-11-14. */
 :root[data-theme="spring"] {
   color-scheme: light;
-  --bg: #b7e4a1; --surface-1: #c9dfc4; --border: #04351e;
-  --text-primary: #22382b; --text-secondary: #526b59; --text-muted: #3b473c;
+  --bg: #9dc08c; --surface-1: #ddf3d8; --border: #04351e;
+  --text-primary: #22382b; --text-secondary: #51604d; --text-muted: #3d4d4a;
   --grid: #e4eee2; --series-1: #438d80;
   --accent: #be515e; --accent-soft: #dbb4c8; --on-accent: #ffffff;
   --gold: #b78b30; --gold-soft: #f6eccd; --gold-glow: rgba(190,151,59,.32);
   --critical: #b7474a; --ok: #145733; --star: rgba(50,90,55,.055);
 }
+/* Summer Sunset: twilight blues, coral, dusk plum and pink (2026-11-14). Value stays "summer" so saved choices keep working. */
 :root[data-theme="summer"] {
   color-scheme: light;
-  --bg: #b0d9fa; --surface-1: #e5eff7; --border: #af5842;
-  --text-primary: #3b5f51; --text-secondary: #446357; --text-muted: #495e56;
-  --grid: #efe5d4; --series-1: #1972aa;
-  --accent: #ee413b; --accent-soft: #ffbebe; --on-accent: #14110f;
-  --gold: #ba8d25; --gold-soft: #faedc5; --gold-glow: rgba(202,153,47,.36);
-  --critical: #c64c44; --ok: #358459; --star: rgba(105,75,30,.055);
+  --bg: #fdf1e7; --surface-1: #fffaf6; --border: #ecc4b4;
+  --text-primary: #2a1f4a; --text-secondary: #6a3d6e; --text-muted: #86566e;
+  --grid: #f7e0d3; --series-1: #2f6cb3;
+  --accent: #f07a5a; --accent-soft: #fde3da; --on-accent: #1f1230;
+  --gold: #d18a12; --gold-soft: #fdeecb; --gold-glow: rgba(240,165,40,.40);
+  --critical: #c2334d; --ok: #23785c; --star: rgba(214,90,120,.10);
 }
+/* Sunset sky background for summer only */
+:root[data-theme="summer"] body {
+  background:
+    radial-gradient(45% 28% at 50% 100%, rgba(255,168,92,.45), transparent 72%),
+    radial-gradient(30% 22% at 85% 8%, rgba(255,255,255,.35), transparent 70%),
+    linear-gradient(180deg, #a9c6ea 0%, #c9bce6 24%, #f2c3cf 46%, #fbd3b0 68%, #fdf1e7 100%);
+  background-attachment: fixed;
+}
+/* Autumn: fall foliage / Thanksgiving, maple orange, crimson, harvest gold, bark brown (2026-11-14). */
 :root[data-theme="autumn"] {
   color-scheme: light;
-  --bg: #d47629bb; --surface-1: #d1b9a5bb; --border: #d45929;
-  --text-primary: #392b26; --text-secondary: #561c64; --text-muted: #5c402f;
-  --grid: #eee1d1; --series-1: #561c64;
-  --accent: #5c150b; --accent-soft: #fd8037; --on-accent: #ffffff;
-  --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
-  --critical: #5c150b; --ok: #85f778; --star: rgba(95,55,30,.055);
+  --bg: #f7ecdf; --surface-1: #fffaf3; --border: #d9b79a;
+  --text-primary: #3a2216; --text-secondary: #7a3518; --text-muted: #7a5a45;
+  --grid: #f0e0cd; --series-1: #b4471c;
+  --accent: #e07a1f; --accent-soft: #fbe0c4; --on-accent: #2a1308;
+  --gold: #c9971c; --gold-soft: #f8ebc4; --gold-glow: rgba(214,160,30,.42);
+  --critical: #a3201b; --ok: #4f6b16; --star: rgba(140,70,20,.08);
+}
+/* Fall foliage background for autumn only */
+:root[data-theme="autumn"] body {
+  background:
+    radial-gradient(42% 30% at 4% 0%, rgba(200,60,25,.38), rgba(200,60,25,.12) 45%, transparent 75%),
+    radial-gradient(40% 28% at 96% 4%, rgba(230,150,25,.42), rgba(230,150,25,.14) 45%, transparent 75%),
+    radial-gradient(50% 32% at 50% 104%, rgba(165,50,25,.30), transparent 72%),
+    radial-gradient(35% 26% at 2% 100%, rgba(120,70,30,.28), transparent 72%),
+    radial-gradient(35% 26% at 98% 100%, rgba(225,120,30,.32), transparent 72%),
+    linear-gradient(180deg, #f6e2c6 0%, #f8eee2 45%, #f5e1cb 100%);
+  background-attachment: fixed;
 }
 :root[data-theme="winter"] {
   color-scheme: dark;
@@ -68,11 +90,12 @@
   --gold: #dfbd77; --gold-soft: #463c2d; --gold-glow: rgba(223,189,119,.42);
   --critical: #ed8484; --ok: #66c7ad; --star: rgba(215,235,255,.09);
 }
+/* Kinari: updated 2026-11-14. */
 :root[data-theme="kinari"] {
   color-scheme: light;
-  --bg: #C2B280; --surface-1: #f3dea0; --border: #6d524d;
-  --text-primary: #104773; --text-secondary: #833121; --text-muted: #806c60;
-  --grid: #a2b1c0; --series-1: #104773; /* graph color */
+  --bg: #C2B280; --surface-1: #f3dea0; --border: #836863;
+  --text-primary: #104773; --text-secondary: #833121; --text-muted: #453c35;
+  --grid: #a2b1c0; --series-1: #104773;
   --accent: #0e3c61; --accent-soft: #a2b1c0; --on-accent: #ffffff;
   --gold: #ad7f28; --gold-soft: #f3e4be; --gold-glow: rgba(184,135,44,.38);
   --critical: #b94b3d; --ok: #134e0e; --star: rgba(95,55,30,.055);
@@ -140,3 +163,24 @@
 }
 :root[data-theme="frutiger aero"] .cat-fill { background-image: linear-gradient(180deg, rgba(255,255,255,.45), transparent 60%); box-shadow: 0 0 8px color-mix(in srgb, var(--series-1) 55%, transparent); }
 :root[data-theme="frutiger aero"] .cat-track { box-shadow: inset 0 1px 2px rgba(0,0,0,.4); }
+
+/* Halloween Haze: pumpkin, witch purple, potion green, blood red (added 2026-11-14). */
+:root[data-theme="halloween haze"] {
+  color-scheme: light;
+  --bg: #f8f1e6; --surface-1: #fffaf2; --border: #dcc3a6;
+  --text-primary: #2a1633; --text-secondary: #5b2a72; --text-muted: #6e5470;
+  --grid: #f1e3d1; --series-1: #6b3fa0;
+  --accent: #f07b1a; --accent-soft: #fde2c4; --on-accent: #1e0f05;
+  --gold: #5fbf1a; --gold-soft: #e4f7d2; --gold-glow: rgba(110,220,40,.55);
+  --critical: #9b111e; --ok: #2f7a12; --star: rgba(107,63,160,.10);
+}
+/* Halloween glow background for halloween haze only */
+:root[data-theme="halloween haze"] body {
+  background:
+    radial-gradient(16% 13% at 86% 7%, rgba(255,247,205,1), rgba(255,214,120,.75) 40%, rgba(255,190,80,.25) 65%, transparent 80%),
+    radial-gradient(38% 30% at 6% 0%, rgba(150,80,230,.30), transparent 70%),
+    radial-gradient(48% 34% at 6% 100%, rgba(100,235,20,.45), rgba(100,235,20,.15) 45%, transparent 75%),
+    radial-gradient(48% 34% at 94% 100%, rgba(255,115,0,.45), rgba(255,115,0,.15) 45%, transparent 75%),
+    linear-gradient(180deg, #e3d1f5 0%, #f2e6f0 38%, #f8efe2 60%, #fcdfbf 100%);
+  background-attachment: fixed;
+}
