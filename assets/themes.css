@@ -56,19 +56,19 @@ html { background-color: var(--edge, var(--bg)); }
   --gold: #d18a12; --gold-soft: #fdeecb; --gold-glow: rgba(240,165,40,.40);
   --critical: #c2334d; --ok: #23785c; --star: rgba(214,90,120,.10);
 }
-/* Sunset sky background for summer only. Drawn on a screen-sized layer pinned behind the page,
-   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
-:root[data-theme="summer"] { --edge: #a9c6ea; }
-:root[data-theme="summer"] body { background: transparent; }
-:root[data-theme="summer"] body::before {
-  content: ""; position: fixed; top: 0; left: 0; right: 0; z-index: -1; pointer-events: none;
-  /* Tallest the screen gets (toolbars hidden), so it still reaches the bottom while iPhone toolbars resize. */
-  height: 100vh; height: 100lvh;
+/* Sunset sky background for summer only. Painted on the page itself (not pinned to the screen),
+   so iPhone Safari draws it all the way down, behind its floating toolbar. Shapes use screen units
+   so they keep their shape; the glow scrolls with the page. */
+:root[data-theme="summer"] {
+  --edge: #a9c6ea;
+  min-height: 100%;
   background:
     radial-gradient(70vmax 38vmax at 50% 100%, rgba(255,168,92,.45), transparent 72%),
     radial-gradient(38vmax 26vmax at 85% 6%, rgba(255,255,255,.35), transparent 70%),
     linear-gradient(180deg, #a9c6ea 0%, #c9bce6 24%, #f2c3cf 46%, #fbd3b0 68%, #fdf1e7 100%);
+  background-color: var(--edge);
 }
+:root[data-theme="summer"] body { background: transparent; }
 /* Autumn: fall foliage / Thanksgiving, maple orange, crimson, harvest gold, bark brown (2026-11-14). */
 :root[data-theme="autumn"] {
   color-scheme: light;
@@ -79,14 +79,12 @@ html { background-color: var(--edge, var(--bg)); }
   --gold: #c9971c; --gold-soft: #f8ebc4; --gold-glow: rgba(214,160,30,.42);
   --critical: #a3201b; --ok: #4f6b16; --star: rgba(140,70,20,.08);
 }
-/* Fall foliage background for autumn only. Drawn on a screen-sized layer pinned behind the page,
-   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
-:root[data-theme="autumn"] { --edge: #f6e2c6; }
-:root[data-theme="autumn"] body { background: transparent; }
-:root[data-theme="autumn"] body::before {
-  content: ""; position: fixed; top: 0; left: 0; right: 0; z-index: -1; pointer-events: none;
-  /* Tallest the screen gets (toolbars hidden), so it still reaches the bottom while iPhone toolbars resize. */
-  height: 100vh; height: 100lvh;
+/* Fall foliage background for autumn only. Painted on the page itself (not pinned to the screen),
+   so iPhone Safari draws it all the way down, behind its floating toolbar. Shapes use screen units
+   so they keep their shape; the glow scrolls with the page. */
+:root[data-theme="autumn"] {
+  --edge: #f6e2c6;
+  min-height: 100%;
   background:
     radial-gradient(48vmax 32vmax at 0% 0%, rgba(200,60,25,.38), rgba(200,60,25,.12) 45%, transparent 75%),
     radial-gradient(46vmax 30vmax at 100% 2%, rgba(230,150,25,.42), rgba(230,150,25,.14) 45%, transparent 75%),
@@ -94,7 +92,9 @@ html { background-color: var(--edge, var(--bg)); }
     radial-gradient(40vmax 28vmax at 0% 100%, rgba(120,70,30,.28), transparent 72%),
     radial-gradient(40vmax 28vmax at 100% 100%, rgba(225,120,30,.32), transparent 72%),
     linear-gradient(180deg, #f6e2c6 0%, #f8eee2 45%, #f5e1cb 100%);
+  background-color: var(--edge);
 }
+:root[data-theme="autumn"] body { background: transparent; }
 :root[data-theme="winter"] {
   color-scheme: dark;
   --bg: #111e2a; --surface-1: #1b2b39; --border: #354a5c;
@@ -136,14 +136,12 @@ html { background-color: var(--edge, var(--bg)); }
   --gold: #b8ff3c; --gold-soft: #24400f; --gold-glow: rgba(184,255,60,.45);
   --critical: #ff6b86; --ok: #5dffa0; --star: rgba(150,210,255,.22);
 }
-/* Glass effect background for frutiger aero only. Drawn on a screen-sized layer pinned behind the page,
-   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
-:root[data-theme="frutiger aero"] { --edge: #071636; }
-:root[data-theme="frutiger aero"] body { background: transparent; }
-:root[data-theme="frutiger aero"] body::before {
-  content: ""; position: fixed; top: 0; left: 0; right: 0; z-index: -1; pointer-events: none;
-  /* Tallest the screen gets (toolbars hidden), so it still reaches the bottom while iPhone toolbars resize. */
-  height: 100vh; height: 100lvh;
+/* Glass effect background for frutiger aero only. Painted on the page itself (not pinned to the screen),
+   so iPhone Safari draws it all the way down, behind its floating toolbar. Shapes use screen units
+   so they keep their shape; the glow scrolls with the page. */
+:root[data-theme="frutiger aero"] {
+  --edge: #071636;
+  min-height: 100%;
   background:
     radial-gradient(1px 1px at 12% 18%, var(--star) 99%, transparent),
     radial-gradient(1px 1px at 72% 9%, var(--star) 99%, transparent),
@@ -153,7 +151,9 @@ html { background-color: var(--edge, var(--bg)); }
     radial-gradient(48vmax 34vmax at 92% 28%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
     radial-gradient(84vmax 46vmax at 50% 105%, color-mix(in srgb, var(--series-1) 18%, transparent), transparent 70%),
     var(--bg);
+  background-color: var(--edge);
 }
+:root[data-theme="frutiger aero"] body { background: transparent; }
 :root[data-theme="frutiger aero"] .card {
   background:
     radial-gradient(130% 55% at 50% -12%, rgba(255,255,255,.13), transparent 62%),
@@ -193,18 +193,18 @@ html { background-color: var(--edge, var(--bg)); }
   --gold: #5fbf1a; --gold-soft: #e4f7d2; --gold-glow: rgba(110,220,40,.55);
   --critical: #9b111e; --ok: #2f7a12; --star: rgba(107,63,160,.10);
 }
-/* Halloween glow background for halloween haze only. Drawn on a screen-sized layer pinned behind the page,
-   so it keeps its shape on phones (iPhones don't pin page backgrounds to the screen). */
-:root[data-theme="halloween haze"] { --edge: #dccaf1; }
-:root[data-theme="halloween haze"] body { background: transparent; }
-:root[data-theme="halloween haze"] body::before {
-  content: ""; position: fixed; top: 0; left: 0; right: 0; z-index: -1; pointer-events: none;
-  /* Tallest the screen gets (toolbars hidden), so it still reaches the bottom while iPhone toolbars resize. */
-  height: 100vh; height: 100lvh;
+/* Halloween glow background for halloween haze only. Painted on the page itself (not pinned to the screen),
+   so iPhone Safari draws it all the way down, behind its floating toolbar. Shapes use screen units
+   so they keep their shape; the glow scrolls with the page. */
+:root[data-theme="halloween haze"] {
+  --edge: #dccaf1;
+  min-height: 100%;
   background:
     radial-gradient(48vmax 34vmax at 0% 0%, rgba(150,80,230,.32), transparent 70%),
     radial-gradient(52vmax 36vmax at 100% 0%, rgba(90,30,160,.34), rgba(90,30,160,.10) 50%, transparent 75%),
     radial-gradient(52vmax 36vmax at 0% 100%, rgba(100,235,20,.45), rgba(100,235,20,.15) 45%, transparent 75%),
     radial-gradient(52vmax 36vmax at 100% 100%, rgba(255,115,0,.45), rgba(255,115,0,.15) 45%, transparent 75%),
     linear-gradient(180deg, #dccaf1 0%, #f2e6f0 38%, #f8efe2 60%, #fcdfbf 100%);
+  background-color: var(--edge);
 }
+:root[data-theme="halloween haze"] body { background: transparent; }
