@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/themes.css?v=3">
+<link rel="stylesheet" href="/assets/themes.css?v=4">
 <style>
 
   * { box-sizing: border-box; }
@@ -222,6 +222,14 @@
 (() => {
   // ---- theme selection (persisted across both pages) ----
   const root = document.documentElement;
+  // Tell the browser which color to show beyond the page (status-bar area); matches the theme's edge color.
+  const syncEdge = () => {
+    const cs = getComputedStyle(root);
+    const c = cs.getPropertyValue("--edge").trim() || cs.getPropertyValue("--bg").trim();
+    let m = document.querySelector('meta[name="theme-color"]');
+    if (!m) { m = document.createElement("meta"); m.name = "theme-color"; document.head.appendChild(m); }
+    m.content = c;
+  };
   const themeSelect = document.getElementById("themeSelect");
   const themeNames = new Set(["paper", "dark", "midnight", "spring", "summer", "autumn", "winter", "kinari", "witchy woods", "frutiger aero", "halloween haze"]);
   let savedTheme = null;
@@ -238,12 +246,14 @@
     themeNames.has(savedTheme) ? savedTheme :
     (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "paper");
   root.dataset.theme = initialTheme;
+  syncEdge();
   shareTheme(initialTheme); // carry this choice to the account pages
   themeSelect.value = initialTheme;
   themeSelect.addEventListener("change", () => {
     const selected = themeSelect.value;
     if (!themeNames.has(selected)) return;
     root.dataset.theme = selected;
+    syncEdge();
     try { localStorage.setItem("uc-theme", selected); } catch (e) {}
     shareTheme(selected);
   });
