@@ -431,7 +431,7 @@
     const sent = (live && live.messages_sent != null && liveOk) ? Math.max(live.messages_sent, t.messages_sent || 0) : (t.messages_sent || 0);
     const lastAt = (liveOk && live && live.last_message_at) || t.last_message_at;
     $("sMsgs").textContent = fmtInt(sent);
-    $("sMsgsn").textContent = t.members ? `to ${fmtInt(t.members)} ${t.members === 1 ? "member" : "members"}` : "";
+    $("sMsgsn").textContent = "to members";
     $("sSince").textContent = span(lastAt, now);
     $("sSincen").textContent = lastAt ? fmtDate(lastAt) : "none yet";
 
