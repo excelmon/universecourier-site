@@ -412,7 +412,7 @@
     $("status").classList.toggle("live", liveOk && !quiet);
     $("dot").classList.toggle("stale", quiet);
     if (quiet) {
-      $("updated").textContent = topAt ? `No new numbers since ${ago(topAt, now)} — the Pi may be offline` : "Waiting for the first number";
+      $("updated").textContent = topAt ? `No new numbers since ${ago(topAt, now)} — the RNG may be offline` : "Waiting for the first number";
     } else if (liveOk) {
       $("updated").textContent = "Numbers arrive as they happen";
     } else {
